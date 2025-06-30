@@ -113,7 +113,7 @@ CliHax/
 
 ## 🧠 Author
 
-Made with 🧠 and ❤️ by **Lord**
+Made with 🧠 and ❤️ by [Harikrishnan](https://github.com/Harikrishnan-P97)
 
 ---
 
