@@ -8,6 +8,7 @@
 [![Last Commit](https://img.shields.io/github/last-commit/Harikrishnan-P97/clihax)](https://github.com/Harikrishnan-P97/clihax/commits)
 [![Open Issues](https://img.shields.io/github/issues/Harikrishnan-P97/clihax)](https://github.com/Harikrishnan-P97/clihax/issues)
 [![Stars](https://img.shields.io/github/stars/Harikrishnan-P97/clihax?style=social)](https://github.com/Harikrishnan-P97/clihax/stargazers)
+[![Build Status](https://github.com/Harikrishnan-P97/clihax/actions/workflows/python.yml/badge.svg)](https://github.com/Harikrishnan-P97/clihax/actions)
 
 ---
 
