@@ -1,0 +1,21 @@
+[project]
+name = "clihax"
+version = "0.1.0"
+description = ""
+authors = [{ name = "Lord" }]
+readme = "README.md"
+requires-python = "^3.10"
+dependencies = [
+    "click (>=8.2.1,<9.0.0)",
+    "rich (>=14.0.0,<15.0.0)",
+    "gitpython (>=3.1.44,<4.0.0)",
+    "pyperclip (>=1.9.0,<2.0.0)",
+    "prompt-toolkit (>=3.0.51,<4.0.0)"
+]
+
+[project.scripts]
+clihax = "clihax.cli:cli"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

