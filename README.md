@@ -20,6 +20,10 @@ Instead of Googling commands every time, create your own searchable, shareable c
 
 ---
 
+📒 [Changelog](CHANGELOG.md)
+
+---
+
 ## ✨ Features
 
 - ✅ Add, edit, delete tools with syntax and descriptions
