@@ -5,6 +5,9 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 [![Status](https://img.shields.io/badge/status-active-brightgreen)](https://github.com/Harikrishnan-P97/clihax)
+[![Last Commit](https://img.shields.io/github/last-commit/Harikrishnan-P97/clihax)](https://github.com/Harikrishnan-P97/clihax/commits)
+[![Open Issues](https://img.shields.io/github/issues/Harikrishnan-P97/clihax)](https://github.com/Harikrishnan-P97/clihax/issues)
+[![Stars](https://img.shields.io/github/stars/Harikrishnan-P97/clihax?style=social)](https://github.com/Harikrishnan-P97/clihax/stargazers)
 
 ---
 
