@@ -68,6 +68,10 @@ cd clihax
 poetry install
 ```
 
+### 🛠️ Troubleshooting
+
+For detailed setup help and solutions to common issues, check the [Troubleshooting Guide](docs/troubleshooting.md).
+
 ### 🏃 Run the CLI
 
 ```bash
