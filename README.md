@@ -1,14 +1,20 @@
 # ⚔️ CliHax
 
-<pre style="font-family: monospace;">
+<div align="center">
+
+<pre>
+
  ██████╗██╗     ██╗██╗  ██╗ █████╗ ██╗  ██╗
 ██╔════╝██║     ██║██║  ██║██╔══██╗╚██╗██╔╝
 ██║     ██║     ██║███████║███████║ ╚███╔╝ 
 ██║     ██║     ██║██╔══██║██╔══██║ ██╔██╗ 
 ╚██████╗███████╗██║██║  ██║██║  ██║██╔╝ ██╗
  ╚═════╝╚══════╝╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
-        ⚡ CliHax - Hacker's Reference ⚡
+
 </pre>
+
+</div>
+
 
 > A command-line tool for hackers and pentesters to manage and recall tool syntax, flags, and notes — right from the terminal.
 
