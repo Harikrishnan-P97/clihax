@@ -1,9 +1,8 @@
 # ⚔️ CliHax
 
 <p align="center">
-  <img src="assets/clihax-bannerimage.pngclihax-bannerimage.png" alt="CliHax Banner" width="700"/>
+  <img src="assets/clihax-bannerimage.png" alt="CliHax Banner" width="700"/>
 </p>
-
 
 > A command-line tool for hackers and pentesters to manage and recall tool syntax, flags, and notes — right from the terminal.
 
