@@ -128,17 +128,35 @@ Usage: clihax [OPTIONS] COMMAND [ARGS]...
 
 ```
 CliHax/
-├── clihax/            # Main source code
-│   ├── cli.py         # Click-based CLI entry
-│   ├── tools/         # Git sync logic
-│   └── utils/         # JSON and helper functions
-├── data/              # Tool DB and metadata
-├── logs/              # Drop action logs
-├── backups/           # Auto-backups before deletion
-├── LICENSE
+├── assets/                  # Logo/banner images for README
+│   └── clihax-bannerimage.png
+│
+├── backups/                 # Auto-backups before database drops
+│
+├── clihax/                  # Main source code
+│   ├── cli.py               # CLI entry point (Click-based)
+│   ├── tools/               # Git sync and tool handlers
+│   └── utils/               # JSON helpers and utilities
+│
+├── data/                    # JSON database and metadata
+│   └── tools.json
+│
+├── docs/                    # Markdown documentation
+│   └── troubleshooting.md
+│
+├── logs/                    # Drop action logs
+│   └── drops.json
+│
+├── .github/workflows/       # GitHub Actions CI/CD
+│   └── main.yml
+│
+├── .gitignore
+├── LICENSE                  # MIT License
 ├── README.md
-├── pyproject.toml     # Poetry config
-└── poetry.lock
+├── CHANGELOG.md             # Version history
+├── pyproject.toml           # Poetry project configuration
+└── poetry.lock              # Locked dependencies
+
 ```
 
 ---
