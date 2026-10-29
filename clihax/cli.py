@@ -1,6 +1,5 @@
 # cli.py
 
-VERSION = "1.0"
 TOOL_NAME = "CliHax"
 
 # ========= Imports ========= #
@@ -15,6 +14,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.text import Text
 from rich.panel import Panel
+from clihax import __version__
 from clihax.utils.helpers import (
     load_tools,
     save_tools,
@@ -24,7 +24,10 @@ from clihax.utils.helpers import (
     backups_dir,
     drops_log_file,
     migrate_legacy_data,
+    normalize_tool,
 )
+
+VERSION = __version__
 
 #========== Banner =============#
 
@@ -43,6 +46,27 @@ def show_banner():
     banner_text = Text(ascii_banner, style="bold cyan")
     panel = Panel(banner_text, expand=False, border_style="cyan", padding=(0, 2))
     console.print(panel)
+
+
+# ========= Small helpers ========= #
+
+def _parse_tags(raw):
+    """Turn 'a, b,,c' into ['a', 'b', 'c'] (empty input gives [])."""
+    return [tag.strip() for tag in raw.split(",") if tag.strip()]
+
+
+def _copy_to_clipboard(text):
+    """Copy text to the clipboard. Returns True on success, False otherwise."""
+    try:
+        pyperclip.copy(text)
+        return True
+    except pyperclip.PyperclipException:
+        click.secho(
+            "❌ Clipboard unavailable. On Linux install xclip or wl-clipboard "
+            "(e.g. sudo apt install xclip).",
+            fg="red",
+        )
+        return False
 
 
 # ========= Main CLI Group ========= #
@@ -126,7 +150,8 @@ def cli(ctx):
 @cli.command(name="list", help="List all tools with optional quick mode and full detail mode.")
 @click.option('--quick', '-q', is_flag=True, help="Minimal/plain output without rich tables.")
 @click.option('--all', '-a', 'show_all', is_flag=True, help="Show full details including description, timestamps.")
-def list_tools(quick, show_all):
+@click.option('--pager', '-p', is_flag=True, help="Show the table in a scrollable pager (press q to quit).")
+def list_tools(quick, show_all, pager):
     tools = load_tools()
     if not tools:
         click.secho("\u274C No tools found in database.", fg="red")
@@ -201,7 +226,10 @@ def list_tools(quick, show_all):
                 ", ".join(tool.get("tags", [])) if isinstance(tool.get("tags", []), list) else ""
             )
 
-    with console.pager():
+    if pager:
+        with console.pager():
+            console.print(table)
+    else:
         console.print(table)
 
 
@@ -213,7 +241,7 @@ def add():
     command = click.prompt("Enter command")
     description = click.prompt("Enter description")
     category = click.prompt("Category (e.g., recon, scan, attack, post)")
-    tags = [tag.strip() for tag in click.prompt("Tags (comma-separated)").split(",")]
+    tags = _parse_tags(click.prompt("Tags (comma-separated, optional)", default="", show_default=False))
 
     now = datetime.now().isoformat(timespec='seconds')
 
@@ -268,9 +296,9 @@ def edit(index):
     updated = {
         "tool": click.prompt("Tool name", default=t["tool"]),
         "command": click.prompt("Command", default=t["command"]),
-        "description": click.prompt("Description", default=t["description"]),
-        "tags": [tag.strip() for tag in click.prompt("Tags (comma-separated)", default=", ".join(t["tags"])).split(",")],
-        "category": click.prompt("Category", default=t["category"]),
+        "description": click.prompt("Description", default=t.get("description", "")),
+        "tags": _parse_tags(click.prompt("Tags (comma-separated)", default=", ".join(t.get("tags", [])))),
+        "category": click.prompt("Category", default=t.get("category", "")),
         "created_at": t.get("created_at", datetime.now().isoformat(timespec='seconds')),
         "updated_at": datetime.now().isoformat(timespec='seconds')
     }
@@ -285,7 +313,7 @@ def edit(index):
 
 @cli.command(help="Show detailed info of a tool by index (1-based).")
 @click.argument("index", type=int)
-@click.option('--copy', '-c', is_flag=True, help="Copy the command to clipboard")
+@click.option('--copy', '-C', is_flag=True, help="Copy the command to clipboard")
 def show(index, copy):
     tools = load_tools()
     index -= 1  # Convert to 0-based index
@@ -295,10 +323,8 @@ def show(index, copy):
         return
 
     tool = tools[index]
-    if copy:
-        pyperclip.copy(tool["command"])
+    if copy and _copy_to_clipboard(tool["command"]):
         click.secho(f"📋 Copied command from '{tool['tool']}' to clipboard!", fg="green")
-        return
 
     table = Table(title=f"Details for Tool [{index + 1}]: {tool['tool']}")
     table.add_column("Field", style="cyan", no_wrap=True)
@@ -338,8 +364,8 @@ def search(keywords, quick, copy):
     if copy is not None:
         one_based = copy - 1
         if 0 <= one_based < len(matched):
-            pyperclip.copy(matched[one_based][1]["command"])
-            click.secho(f"📋 Copied command from result [{copy}] ({matched[one_based][1]['tool']})", fg="green")
+            if _copy_to_clipboard(matched[one_based][1]["command"]):
+                click.secho(f"📋 Copied command from result [{copy}] ({matched[one_based][1]['tool']})", fg="green")
         else:
             click.secho(f"❌ Invalid index: {copy}. Use a number between 1 and {len(matched)}.", fg="red")
         return
@@ -424,8 +450,8 @@ def searchfilter(tag, category, keywords, quick, copy):
     if copy is not None:
         one_based = copy - 1
         if 0 <= one_based < len(matched):
-            pyperclip.copy(matched[one_based]["command"])
-            click.secho(f"📋 Copied command from result [{copy}] ({matched[one_based]['tool']})", fg="green")
+            if _copy_to_clipboard(matched[one_based]["command"]):
+                click.secho(f"📋 Copied command from result [{copy}] ({matched[one_based]['tool']})", fg="green")
         else:
             click.secho(f"❌ Invalid index: {copy}. Use a number between 1 and {len(matched)}.", fg="red")
         return
@@ -507,7 +533,7 @@ def info(quick):
     console = Console()
     console.print("")
     show_banner()
-    console.print("\n[bold green]🧰 CliHax v1.0[/]")
+    console.print(f"\n[bold green]🧰 CliHax v{VERSION}[/]")
     console.print("A lightweight CLI reference manager for pentesters to store and retrieve common tool commands with ease.\n")
 
     console.print("[bold cyan]📦 CliHax Tool Info[/]")
@@ -542,12 +568,31 @@ def import_tools(filename):
         console.print(f"[red]❌ Failed to read or parse JSON:[/] {e}")
         return
 
+    valid = []
+    invalid = 0
+    for entry in imported:
+        normalized = normalize_tool(entry)
+        if normalized is None:
+            invalid += 1
+        else:
+            valid.append(normalized)
+    if invalid:
+        console.print(
+            f"[yellow]⚠️ Skipped {invalid} invalid entr{'y' if invalid == 1 else 'ies'} "
+            "(each needs a 'tool' and a 'command').[/]"
+        )
+
     existing = load_tools()
-    existing_set = {(t["tool"], t["command"]) for t in existing}
-    new_tools = [t for t in imported if (t["tool"], t["command"]) not in existing_set]
+    existing_set = {(t.get("tool"), t.get("command")) for t in existing}
+    new_tools = []
+    for t in valid:
+        key = (t["tool"], t["command"])
+        if key not in existing_set:
+            existing_set.add(key)
+            new_tools.append(t)
 
     if not new_tools:
-        console.print("[yellow]⚠️ No new tools to import. All entries are duplicates.[/]")
+        console.print("[yellow]⚠️ No new tools to import. All entries are duplicates or invalid.[/]")
         return
 
     existing.extend(new_tools)
@@ -557,8 +602,8 @@ def import_tools(filename):
     update_meta("import")
 
     console.print(f"[green]✅ Imported {len(new_tools)} new tools from '{filename}' (merged).[/]")
-    if len(new_tools) < len(imported):
-        console.print(f"[yellow]⚠️ {len(imported) - len(new_tools)} duplicate entries were skipped.[/]")
+    if len(new_tools) < len(valid):
+        console.print(f"[yellow]⚠️ {len(valid) - len(new_tools)} duplicate entries were skipped.[/]")
 
 # ========= Export ===========#
 
@@ -623,7 +668,6 @@ def drop(force):
     # ======= Forced Drop (no prompt, no backup) ======= #
     if force:
         save_tools([])
-        update_meta({"tools_count": 0})
         backup_created = False
         console.print("[bold red]All tools dropped successfully (forced).[/bold red]")
     else:
@@ -658,7 +702,6 @@ Are you sure you want to continue? (y/n):
 
         # Proceed with drop
         save_tools([])
-        update_meta({"tools_count": 0})
         console.print("[bold red]All tools dropped successfully.[/bold red]")
 
     # ======= Logging Drop Event ======= #

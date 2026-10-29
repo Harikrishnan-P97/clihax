@@ -149,3 +149,40 @@ def migrate_legacy_data(legacy_root=None):
             shutil.copy2(src, dst)
             migrated.append(dst)
     return migrated
+
+
+# ========= Validation ========= #
+
+def normalize_tool(entry):
+    """Return a well-formed tool dict, or None if the entry is unusable.
+
+    A usable entry is a dict with a non-empty ``tool`` and ``command``.
+    Missing optional fields get sensible defaults so other commands never
+    hit a KeyError.
+    """
+    if not isinstance(entry, dict):
+        return None
+    tool = str(entry.get("tool", "")).strip()
+    command = str(entry.get("command", "")).strip()
+    if not tool or not command:
+        return None
+
+    tags = entry.get("tags", [])
+    if isinstance(tags, str):
+        tags = [t.strip() for t in tags.split(",") if t.strip()]
+    elif isinstance(tags, list):
+        tags = [str(t).strip() for t in tags if str(t).strip()]
+    else:
+        tags = []
+
+    now = datetime.now().isoformat(timespec="seconds")
+    created = entry.get("created_at") or now
+    return {
+        "tool": tool,
+        "command": command,
+        "description": str(entry.get("description", "")),
+        "tags": tags,
+        "category": str(entry.get("category", "")),
+        "created_at": created,
+        "updated_at": entry.get("updated_at") or created,
+    }

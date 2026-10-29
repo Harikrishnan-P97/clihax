@@ -1,6 +1,6 @@
 [project]
 name = "clihax"
-version = "0.1.0"
+version = "1.0.0"
 description = "CliHax - A command reference manager for hackers and pentesters."
 authors = [{ name = "Lord" }]
 readme = "README.md"
