@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+dist/
+.pytest_cache/
+.ruff_cache/
+
+# user runtime data
+backups/
+logs/
+data/meta.json
