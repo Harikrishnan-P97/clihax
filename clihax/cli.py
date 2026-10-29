@@ -1,33 +1,33 @@
 # cli.py
 
-TOOL_NAME = "CliHax"
-
 # ========= Imports ========= #
+import json
+import os
+import re
+from datetime import datetime
+
 import click
 import pyperclip
-import textwrap
-import re
-import os
-import json
-from datetime import datetime
 from rich.console import Console
+from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
-from rich.panel import Panel
+
 from clihax import __version__
 from clihax.utils.helpers import (
-    load_tools,
-    save_tools,
-    update_meta,
-    load_meta,
-    get_data_dir,
     backups_dir,
     drops_log_file,
+    get_data_dir,
+    load_meta,
+    load_tools,
     migrate_legacy_data,
     normalize_tool,
+    save_tools,
+    update_meta,
 )
 
 VERSION = __version__
+TOOL_NAME = "CliHax"
 
 #========== Banner =============#
 
@@ -36,8 +36,8 @@ def show_banner():
 
  ██████╗██╗     ██╗██╗  ██╗ █████╗ ██╗  ██╗
 ██╔════╝██║     ██║██║  ██║██╔══██╗╚██╗██╔╝
-██║     ██║     ██║███████║███████║ ╚███╔╝ 
-██║     ██║     ██║██╔══██║██╔══██║ ██╔██╗ 
+██║     ██║     ██║███████║███████║ ╚███╔╝
+██║     ██║     ██║██╔══██║██╔══██║ ██╔██╗
 ╚██████╗███████╗██║██║  ██║██║  ██║██╔╝ ██╗
  ╚═════╝╚══════╝╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
 """
@@ -91,13 +91,13 @@ Common Flags:
 Usage Examples:
 
     # List tools
-        clihax list 
+        clihax list
         clihax list --quick
 
-    # Add, show, edit, delete     
-        clihax add     
+    # Add, show, edit, delete
+        clihax add
         clihax show 1 --copy
-        clihax edit 2     
+        clihax edit 2
         clihax delete 3
 
     # Search tools
@@ -105,18 +105,18 @@ Usage Examples:
         clihax search "reverse shell" --quick
         clihax search "brute-force" --copy 1
 
-    # Filter tools     
+    # Filter tools
         clihax searchfilter -t smb
-        clihax searchfilter -c post     
+        clihax searchfilter -c post
         clihax searchfilter -c attack -t brute-force "ftp,nmap"
-        clihax searchfilter -t recon --copy 1     
+        clihax searchfilter -t recon --copy 1
         clihax searchfilter -c post -t meterpreter "reverse,shell" --quick
 
-    # Import/export     
-        clihax import tools.json     
+    # Import/export
+        clihax import tools.json
         clihax export output.json
 
-    # Tool info     
+    # Tool info
         clihax info
         clihax info --quick
 """
@@ -187,7 +187,7 @@ def list_tools(quick, show_all, pager):
     # Rich table output
     if show_all:
         console.print("[bold yellow]💡 Tip:[/] For best readability, use full-screen terminal or scroll with [green]Shift+PageUp/PageDown[/] or pipe to [blue]less -R[/].\n")
-        
+
         table = Table(title="CliHax Full Tool List", show_lines=True)
         table.add_column("Index", justify="center", style="bold cyan")
         table.add_column("Tool", style="magenta", overflow="fold")
@@ -373,7 +373,7 @@ def search(keywords, quick, copy):
     console = Console(force_terminal=True)
 
     if quick:
-        for i, (orig_idx, t) in enumerate(matched, start=1):  # Displayed index starts from 1
+        for i, (_orig_idx, t) in enumerate(matched, start=1):  # Displayed index starts from 1
             line = Text()
             line.append(f"[{i}] ", style="bold cyan")
             line.append(f"{t['tool']}: ", style="bold magenta")
@@ -430,7 +430,7 @@ def searchfilter(tag, category, keywords, quick, copy):
         highlight_terms.append(category)
 
     matched = []
-    for idx, tool in enumerate(tools):
+    for tool in tools:
         tags = [t.lower() for t in tool.get("tags", [])]
         searchable = f"{tool.get('tool', '')} {tool.get('command', '')} {tool.get('description', '')}".lower()
 
@@ -538,7 +538,7 @@ def info(quick):
 
     console.print("[bold cyan]📦 CliHax Tool Info[/]")
     console.print(f"🔢 Total Tools Stored     : [green]{total_tools}[/]")
-    console.print(f"🧑 Author                 : [magenta]LordSec[/]")
+    console.print("🧑 Author                 : [magenta]LordSec[/]")
     console.print(f"🕓 Last Edit              : [yellow]{last_edit}[/]")
     console.print(f"📥 Last Import            : [blue]{meta.get('last_import', 'N/A')}[/]")
     console.print(f"📤 Last Export            : [blue]{meta.get('last_export', 'N/A')}[/]")
@@ -552,7 +552,6 @@ def info(quick):
 def import_tools(filename):
     """Import tools from a JSON file and merge with existing entries."""
     from builtins import list as list_type
-    from datetime import datetime
     console = Console()
 
     if not os.path.exists(filename):
@@ -560,7 +559,7 @@ def import_tools(filename):
         return
 
     try:
-        with open(filename, "r") as f:
+        with open(filename) as f:
             imported = json.load(f)
         if not isinstance(imported, list_type):
             raise ValueError("Invalid format: expected a list of tool dictionaries.")
@@ -650,11 +649,11 @@ def export_tools(filename):
 @click.option('--force', '-f', is_flag=True, help="Force drop without confirmation or backup.")
 def drop(force):
     """Drop all tools from the database after confirmation or force."""
-    from rich.console import Console
-    from rich.text import Text
-    import os
     import json
     from datetime import datetime
+
+    from rich.console import Console
+    from rich.text import Text
 
     console = Console()
     tools = load_tools()
@@ -676,7 +675,7 @@ def drop(force):
 ⚠️  WARNING: You are about to delete ALL stored tools permanently.
 This action CANNOT be undone.
 
-Are you sure you want to continue? (y/n): 
+Are you sure you want to continue? (y/n):
 """, style="bold red")
 
         response = input(warning_text.plain).strip().lower()
@@ -716,7 +715,7 @@ Are you sure you want to continue? (y/n):
 
     try:
         if log_path.exists():
-            with open(log_path, "r") as f:
+            with open(log_path) as f:
                 log_data = json.load(f)
         else:
             log_data = []
@@ -736,10 +735,10 @@ Are you sure you want to continue? (y/n):
 @click.option('--clear', is_flag=True, help="Clear all drop logs.")
 def logs(clear):
     """Show or clear logged drop events."""
+    import json
+
     from rich.console import Console
     from rich.table import Table
-    import os
-    import json
 
     console = Console()
     log_path = drops_log_file()
@@ -763,7 +762,7 @@ def logs(clear):
         return
 
     try:
-        with open(log_path, "r") as f:
+        with open(log_path) as f:
             log_data = json.load(f)
 
         if not log_data:

@@ -1,25 +1,48 @@
 name: CliHax CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
+    name: test (py${{ matrix.python-version }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Check out repo
+        uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: ${{ matrix.python-version }}
 
-      - name: Install Poetry
+      - name: Install Poetry and dependencies
         run: |
-          pip install poetry
+          python -m pip install --upgrade pip poetry
           poetry install
 
-      - name: Run CLI Help Test
+      - name: Lint (ruff)
+        if: matrix.python-version == '3.12'
+        run: poetry run ruff check .
+
+      - name: Run tests
+        run: poetry run pytest -q
+
+      - name: Smoke test the CLI
         run: |
+          poetry run clihax --version
           poetry run clihax --help
