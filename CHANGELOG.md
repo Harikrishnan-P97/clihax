@@ -6,6 +6,18 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [Unreleased]
+### Changed
+- Tools database, metadata, drop logs and backups now live in a per-user data directory (override with `CLIHAX_HOME`) instead of the current working directory, so `clihax` works from any folder
+- Database writes are atomic (temp file + rename)
+
+### Added
+- Automatic one-time migration from the v1.0 `./data`, `./logs`, `./backups` layout
+- `clihax info` shows the active data directory
+- Unit tests for the storage layer
+
+---
+
 ## [v1.0.0] - 2025-06-30
 ### Added
 - Initial public release of CliHax 🎉

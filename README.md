@@ -173,10 +173,26 @@ poetry run clihax drop
 
 ---
 
+## 🗄️ Where Your Data Lives
+
+CliHax stores your tools in a per-user data directory, so it works from any folder:
+
+| OS      | Location                                  |
+| ------- | ----------------------------------------- |
+| Linux   | `~/.local/share/clihax/`                  |
+| macOS   | `~/Library/Application Support/clihax/`   |
+| Windows | `%LOCALAPPDATA%\clihax\`                  |
+
+Set `CLIHAX_HOME=/some/path` to use a different location. Run `clihax info` to see the active path.
+
+Upgrading from v1.0? If you run `clihax` from a folder that still contains the old `data/tools.json`, it is copied over automatically (once, without overwriting anything).
+
+---
+
 ## 🔐 Drop & Backup System
 
-- Drops are **logged** with timestamps to `logs/drops.json`
-- Backups are **auto-saved** in `backups/` before mass deletion
+- Drops are **logged** with timestamps to `logs/drops.json` in your data directory
+- Backups are **auto-saved** in `backups/` in your data directory before mass deletion
 - View logs with: `clihax logs`
 - Clear logs: `clihax logs --clear`
 

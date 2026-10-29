@@ -15,7 +15,16 @@ from rich.console import Console
 from rich.table import Table
 from rich.text import Text
 from rich.panel import Panel
-from clihax.utils.helpers import load_tools, save_tools, update_meta, load_meta
+from clihax.utils.helpers import (
+    load_tools,
+    save_tools,
+    update_meta,
+    load_meta,
+    get_data_dir,
+    backups_dir,
+    drops_log_file,
+    migrate_legacy_data,
+)
 
 #========== Banner =============#
 
@@ -100,6 +109,13 @@ def cli(ctx):
     """
     CliHax - Manage and search hacking tool syntax with ease.
     """
+    migrated = migrate_legacy_data()
+    if migrated:
+        click.secho(
+            f"ℹ️  Migrated {len(migrated)} file(s) from ./data to {get_data_dir()}",
+            fg="cyan",
+            err=True,
+        )
     if ctx.invoked_subcommand is None:
         click.echo(ctx.get_help())
 
@@ -484,6 +500,7 @@ def info(quick):
         print(f"Last edit     : {last_edit}")
         print(f"Last import   : {meta.get('last_import', 'N/A')}")
         print(f"Last export   : {meta.get('last_export', 'N/A')}")
+        print(f"Data dir      : {get_data_dir()}")
         return
 
     # --- Rich / full mode ---
@@ -499,6 +516,7 @@ def info(quick):
     console.print(f"🕓 Last Edit              : [yellow]{last_edit}[/]")
     console.print(f"📥 Last Import            : [blue]{meta.get('last_import', 'N/A')}[/]")
     console.print(f"📤 Last Export            : [blue]{meta.get('last_export', 'N/A')}[/]")
+    console.print(f"📁 Data Directory         : [cyan]{get_data_dir()}[/]")
 
 
 # ========= Import ============== #
@@ -626,9 +644,7 @@ Are you sure you want to continue? (y/n):
         backup_response = input("Do you want to back up your tools before dropping them? (y/n): ").strip().lower()
         if backup_response in ['y', 'yes']:
             timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
-            backup_dir = "backups"
-            os.makedirs(backup_dir, exist_ok=True)
-            backup_path = os.path.join(backup_dir, f"tools_backup_{timestamp}.json")
+            backup_path = backups_dir() / f"tools_backup_{timestamp}.json"
 
             try:
                 with open(backup_path, "w") as f:
@@ -653,12 +669,10 @@ Are you sure you want to continue? (y/n):
         "backup_created": backup_created
     }
 
-    log_dir = "logs"
-    os.makedirs(log_dir, exist_ok=True)
-    log_path = os.path.join(log_dir, "drops.json")
+    log_path = drops_log_file()
 
     try:
-        if os.path.exists(log_path):
+        if log_path.exists():
             with open(log_path, "r") as f:
                 log_data = json.load(f)
         else:
@@ -685,11 +699,11 @@ def logs(clear):
     import json
 
     console = Console()
-    log_path = "logs/drops.json"
+    log_path = drops_log_file()
 
     if clear:
         # ===== Clear logs =====
-        if os.path.exists(log_path):
+        if log_path.exists():
             try:
                 with open(log_path, "w") as f:
                     json.dump([], f, indent=2)
@@ -701,7 +715,7 @@ def logs(clear):
         return
 
     # ===== View logs =====
-    if not os.path.exists(log_path):
+    if not log_path.exists():
         console.print("[bold yellow]No drop logs found.[/bold yellow]")
         return
 
