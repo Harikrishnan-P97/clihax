@@ -21,7 +21,8 @@ dependencies = [
     "rich (>=14.0.0,<15.0.0)",
     "gitpython (>=3.1.44,<4.0.0)",
     "pyperclip (>=1.9.0,<2.0.0)",
-    "prompt-toolkit (>=3.0.51,<4.0.0)"
+    "prompt-toolkit (>=3.0.51,<4.0.0)",
+    "platformdirs (>=4.0,<4.14)"
 ]
 
 [project.scripts]
@@ -30,3 +31,8 @@ clihax = "clihax.cli:cli"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.2.0,<10.0.0)"
+]
