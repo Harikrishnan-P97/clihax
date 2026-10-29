@@ -81,7 +81,7 @@ def load_tools():
     path = tools_file()
     if not path.exists():
         return []
-    with open(path, "r") as f:
+    with open(path) as f:
         return json.load(f)
 
 
@@ -95,7 +95,7 @@ def save_tools(tools):
 def load_meta():
     path = meta_file()
     if path.exists():
-        with open(path, "r") as f:
+        with open(path) as f:
             return json.load(f)
     return {}
 
@@ -127,7 +127,7 @@ def migrate_legacy_data(legacy_root=None):
 
     # Nothing worth migrating if the old database is empty or unreadable.
     try:
-        with open(old_tools, "r") as f:
+        with open(old_tools) as f:
             old_data = json.load(f)
     except (OSError, ValueError):
         return []
