@@ -20,11 +20,13 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - The empty git-sync stub and the unused `gitpython` and `prompt-toolkit` dependencies; the README no longer advertises git sync (use `export`/`import` or keep your own copy in Git)
 
 ### Fixed
+- `search` and `searchfilter` always printed colour codes, even when piped into `less`, `grep` or a file; output is now coloured only on a real terminal
 - Stored commands containing text like `[port]` were silently altered in `list` and `show`, and `[/x]` crashed them; commands are now shown exactly as stored
 - `searchfilter "ftp,"` (trailing comma) no longer matches every tool
 - README project tree, install instructions and docs pointed at old file locations
 
 ### Added
+- `clihax --no-color` (and support for the `NO_COLOR` environment variable) to switch colours off. Put the flag before the command, for example `clihax --no-color list`
 - `--json` for `list`, `show`, `search` and `searchfilter`: prints only JSON on stdout (each tool with its displayed `index`), `[]` when nothing matches, and exits with status 1 on an invalid `show` index. It cannot be combined with `--quick`, `--pager` or `--copy`
 - `clihax starter`: adds a built-in pack of 33 common commands (nmap, ffuf, gobuster, hydra, sqlmap, msfvenom, ...). `--list` previews it, `--yes` skips the prompt; your own tools are never changed and duplicates are skipped
 - Redesigned `clihax info`: the banner is kept, followed by About (version, author, repository link, license, Python), Toolbox (tool, category and tag counts, data folder, database size, backups, drop log) and Activity (last edit/import/export with a relative time) panels; `info --quick` now also prints the author and repository

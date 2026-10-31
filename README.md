@@ -34,7 +34,7 @@ Instead of Googling commands every time, create your own searchable, shareable c
 - 🔍 Search tools by keyword or filter by tags/category
 - 🏷️ Tag tools by hacking phase (e.g., recon, exploit)
 - 📋 Copy command syntax directly to your clipboard
-- 🌈 Styled output with [Rich](https://github.com/Textualize/rich)
+- 🌈 Styled output with [Rich](https://github.com/Textualize/rich); plain when piped, and `--no-color` / `NO_COLOR` turn colours off
 - 💾 JSON-based persistent storage
 - 🧠 Import/export entire tool DB
 - 🤖 `--json` output for scripting (`list`, `show`, `search`, `searchfilter`)
