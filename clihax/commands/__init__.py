@@ -5,4 +5,5 @@ search  - search, searchfilter
 data    - import, export, drop, logs
 info    - info
 starter - starter
+completion - completion (shell Tab-completion)
 """

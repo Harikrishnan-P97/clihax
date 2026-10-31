@@ -37,6 +37,7 @@ Instead of Googling commands every time, create your own searchable, shareable c
 - 🌈 Styled output with [Rich](https://github.com/Textualize/rich); plain when piped, and `--no-color` / `NO_COLOR` turn colours off
 - 💾 JSON-based persistent storage
 - 🧠 Import/export entire tool DB
+- ⌨️ Tab completion for bash, zsh and fish (`clihax completion bash`)
 - 🤖 `--json` output for scripting (`list`, `show`, `search`, `searchfilter`)
 - 🚀 Starter pack of 30+ ready-made commands (`clihax starter`)
 - ⚡ Quick mode (`--quick`) for silent terminal use
@@ -106,6 +107,7 @@ Usage: clihax [OPTIONS] COMMAND [ARGS]...
 | `searchfilter <tag>` | Filter tools by tag or category              |
 | `export <file>`      | Export your database to a JSON file          |
 | `starter`            | Add a ready-made pack of common commands     |
+| `completion <shell>` | Print the Tab-completion script (bash/zsh/fish)|
 | `import <file>`      | Import tools from a JSON file                |
 | `drop`               | Delete all tools (with confirmation & backup)|
 | `logs`               | View or clear drop history                   |
@@ -144,6 +146,7 @@ CliHax/
 │   │   ├── search.py        # search, searchfilter
 │   │   ├── data.py          # import, export, drop, logs
 │   │   ├── starter.py       # starter
+│   │   ├── completion.py    # completion + Tab-completion helpers
 │   │   └── info.py          # info
 │   └── utils/
 │       ├── helpers.py       # Storage: data dir, JSON I/O, backups, migration
@@ -162,6 +165,24 @@ CliHax/
 ├── CHANGELOG.md             # Version history
 ├── pyproject.toml           # Project configuration (Poetry)
 └── poetry.lock              # Locked dependencies
+```
+
+---
+
+## ⌨️ Shell Completion
+
+Press Tab to complete commands, options and even your own tags, categories and tool numbers.
+Add one line to your shell's startup file, then open a new terminal:
+
+```bash
+# bash
+echo 'eval "$(clihax completion bash)"' >> ~/.bashrc
+
+# zsh
+echo 'eval "$(clihax completion zsh)"' >> ~/.zshrc
+
+# fish
+clihax completion fish > ~/.config/fish/completions/clihax.fish
 ```
 
 ---

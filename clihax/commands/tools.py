@@ -3,6 +3,7 @@
 import click
 
 from clihax import ui
+from clihax.commands.completion import complete_index
 from clihax.utils.helpers import load_tools, now_iso, save_tools
 
 
@@ -98,7 +99,7 @@ def add() -> None:
 # ========= edit ========= #
 
 @click.command(help="Edit a tool by its index (1-based).")
-@click.argument("index", type=int)
+@click.argument("index", type=int, shell_complete=complete_index)
 def edit(index: int) -> None:
     tools = load_tools()
     position = _resolve_index(tools, index)
@@ -125,7 +126,7 @@ def edit(index: int) -> None:
 # ========= delete ========= #
 
 @click.command(help="Delete a tool by its index")
-@click.argument("index", type=int)
+@click.argument("index", type=int, shell_complete=complete_index)
 def delete(index: int) -> None:
     tools = load_tools()
     position = _resolve_index(tools, index)
@@ -141,7 +142,7 @@ def delete(index: int) -> None:
 # ========= show ========= #
 
 @click.command(help="Show detailed info of a tool by index (1-based).")
-@click.argument("index", type=int)
+@click.argument("index", type=int, shell_complete=complete_index)
 @click.option("--copy", "-C", is_flag=True, help="Copy the command to clipboard")
 @click.option("--json", "as_json", is_flag=True, help="Print the tool as JSON (for scripts).")
 def show(index: int, copy: bool, as_json: bool) -> None:

@@ -9,7 +9,7 @@ import os
 import click
 
 from clihax import __version__
-from clihax.commands import data, info, search, starter, tools
+from clihax.commands import completion, data, info, search, starter, tools
 from clihax.utils.helpers import get_data_dir, migrate_legacy_data
 
 TOOL_NAME = "CliHax"
@@ -67,6 +67,9 @@ Usage Examples:
         clihax starter --list
         clihax starter
 
+    # Tab completion (add to ~/.bashrc, ~/.zshrc or fish completions)
+        eval "$(clihax completion bash)"
+
     # Tool info
         clihax info
         clihax info --quick
@@ -117,6 +120,7 @@ for command in (
     search.searchfilter,
     info.info,
     starter.starter,
+    completion.completion,
     data.import_tools,
     data.export_tools,
     data.drop,
