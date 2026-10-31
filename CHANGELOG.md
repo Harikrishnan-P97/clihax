@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 ### Changed
+- The author is now shown as `Harikrishnan-P97` (matching GitHub) in `info` and `pyproject.toml`, which also gains project URLs; the deprecated licence classifier was removed
 - Split the 750-line `cli.py` into small modules: `commands/` (tools, search, data, info), `ui.py` for presentation and `utils/search.py` for pure search logic. Behaviour is unchanged unless listed below
 - `searchfilter --quick` now uses the same colours as `search --quick`; both highlight matches case-insensitively
 - The same "Invalid index" wording is used by `show`, `edit` and `delete`
@@ -24,6 +25,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - README project tree, install instructions and docs pointed at old file locations
 
 ### Added
+- Redesigned `clihax info`: the banner is kept, followed by About (version, author, repository link, license, Python), Toolbox (tool, category and tag counts, data folder, database size, backups, drop log) and Activity (last edit/import/export with a relative time) panels; `info --quick` now also prints the author and repository
 - `python -m clihax` entry point
 - Tests for every command, the search logic, markup safety and storage (110 in total)
 - Tools database, metadata, drop logs and backups now live in a per-user data directory (override with `CLIHAX_HOME`) instead of the current working directory, so `clihax` works from any folder

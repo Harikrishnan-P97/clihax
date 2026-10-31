@@ -217,6 +217,7 @@ def test_filter_copy_invalid_index(seeded, clipboard):
 
 
 # ---------- info ----------
+# (the full layout is covered in test_info.py)
 
 def test_info_quick(seeded):
     _, out = run(seeded, "info", "--quick")
@@ -224,11 +225,10 @@ def test_info_quick(seeded):
     assert "Data dir" in out
 
 
-def test_info_full_shows_banner_and_counts(seeded):
+def test_info_full_runs(seeded):
     result, out = run(seeded, "info")
     assert result.exit_code == 0
-    assert "Total Tools Stored" in out
-    assert "CliHax Tool Info" in out
+    assert "Toolbox" in out
 
 
 # ---------- export ----------

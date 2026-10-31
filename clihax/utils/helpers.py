@@ -242,3 +242,24 @@ def normalize_tool(entry):
         "created_at": created,
         "updated_at": entry.get("updated_at") or created,
     }
+
+
+# ========= Read-only storage summary (never creates folders) ========= #
+
+def count_backups() -> int:
+    """Number of saved backups (0 if the folder does not exist yet)."""
+    folder = get_data_dir() / "backups"
+    return len(list(folder.glob("tools_backup_*.json"))) if folder.is_dir() else 0
+
+
+def count_drop_events() -> int:
+    """Number of logged drop events (0 if there is no usable log)."""
+    path = get_data_dir() / "logs" / "drops.json"
+    if not path.is_file():
+        return 0
+    try:
+        with open(path) as f:
+            events = json.load(f)
+    except (OSError, ValueError):
+        return 0
+    return len(events) if isinstance(events, list) else 0
