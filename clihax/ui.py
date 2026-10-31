@@ -4,8 +4,9 @@ Everything that decides how CliHax *looks* lives here, so command modules
 only decide *what* to show.
 """
 
+import json
 import re
-from collections.abc import Iterable, Sequence
+from collections.abc import Iterable, Mapping, Sequence
 
 import click
 import pyperclip
@@ -88,6 +89,25 @@ def highlight(text: Text, terms: Iterable[str]) -> Text:
         if term:
             text.highlight_regex(rf"(?i){re.escape(term)}", style="bold yellow")
     return text
+
+
+# ========= JSON output (--json) ========= #
+
+def tool_json(index: int, tool: ToolDict) -> ToolDict:
+    """A tool as shown in JSON output: its 1-based index first, then the stored fields."""
+    return {"index": index, **tool}
+
+
+def print_json(data: object) -> None:
+    """Print data as pretty JSON on stdout (nothing else is ever printed in --json mode)."""
+    click.echo(json.dumps(data, indent=2, ensure_ascii=False))
+
+
+def reject_json_conflicts(flags: Mapping[str, bool]) -> None:
+    """--json prints machine-readable output only, so it can't be mixed with display flags."""
+    used = [name for name, enabled in flags.items() if enabled]
+    if used:
+        raise click.UsageError(f"--json cannot be combined with {', '.join(used)}.")
 
 
 # ========= Plain "quick" output ========= #

@@ -11,14 +11,20 @@ def _parse_tags(raw: str) -> list[str]:
     return [tag.strip() for tag in raw.split(",") if tag.strip()]
 
 
-def _resolve_index(tools: list, index: int) -> int | None:
+INVALID_INDEX = "Invalid index. Use 'list' to see available entries (starting from 1)."
+
+
+def _resolve_index(tools: list, index: int, *, strict: bool = False) -> int | None:
     """Convert a 1-based index typed by the user into a list position.
 
-    Prints an error and returns None when the index is out of range.
+    When the index is out of range, prints an error and returns None, or
+    (``strict``) exits with status 1 so scripts can detect the failure.
     """
     if 1 <= index <= len(tools):
         return index - 1
-    ui.error("Invalid index. Use 'list' to see available entries (starting from 1).")
+    if strict:
+        raise click.ClickException(INVALID_INDEX)
+    ui.error(INVALID_INDEX)
     return None
 
 
@@ -28,7 +34,13 @@ def _resolve_index(tools: list, index: int) -> int | None:
 @click.option("--quick", "-q", is_flag=True, help="Minimal/plain output without rich tables.")
 @click.option("--all", "-a", "show_all", is_flag=True, help="Show full details including description, timestamps.")
 @click.option("--pager", "-p", is_flag=True, help="Show the table in a scrollable pager (press q to quit).")
-def list_tools(quick: bool, show_all: bool, pager: bool) -> None:
+@click.option("--json", "as_json", is_flag=True, help="Print all tools as JSON (for scripts).")
+def list_tools(quick: bool, show_all: bool, pager: bool, as_json: bool) -> None:
+    if as_json:
+        ui.reject_json_conflicts({"--quick": quick, "--pager": pager})
+        ui.print_json([ui.tool_json(i, tool) for i, tool in enumerate(load_tools(), start=1)])
+        return
+
     tools = load_tools()
     if not tools:
         ui.error("No tools found in database.")
@@ -131,13 +143,19 @@ def delete(index: int) -> None:
 @click.command(help="Show detailed info of a tool by index (1-based).")
 @click.argument("index", type=int)
 @click.option("--copy", "-C", is_flag=True, help="Copy the command to clipboard")
-def show(index: int, copy: bool) -> None:
+@click.option("--json", "as_json", is_flag=True, help="Print the tool as JSON (for scripts).")
+def show(index: int, copy: bool, as_json: bool) -> None:
+    if as_json:
+        ui.reject_json_conflicts({"--copy": copy})
     tools = load_tools()
-    position = _resolve_index(tools, index)
+    position = _resolve_index(tools, index, strict=as_json)
     if position is None:
         return
 
     tool = tools[position]
+    if as_json:
+        ui.print_json(ui.tool_json(index, tool))
+        return
     if copy and ui.copy_to_clipboard(tool.get("command", "")):
         click.secho(f"📋 Copied command from '{tool.get('tool', '')}' to clipboard!", fg="green")
 

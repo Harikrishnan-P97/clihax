@@ -17,6 +17,11 @@ def _copy_result(matches: list[ToolDict], position: int) -> None:
         click.secho(f"📋 Copied command from result [{position}] ({tool['tool']})", fg="green")
 
 
+def _print_json(matches: list[ToolDict]) -> None:
+    """Matches as JSON; the index is the displayed position, as used by --copy."""
+    ui.print_json([ui.tool_json(i, tool) for i, tool in enumerate(matches, start=1)])
+
+
 def _show_results(matches: list[ToolDict], title: str, terms: list[str], quick: bool) -> None:
     console = ui.make_console(force_terminal=True)
     if quick:
@@ -31,10 +36,16 @@ def _show_results(matches: list[ToolDict], title: str, terms: list[str], quick: 
 @click.argument("keywords", required=True)
 @click.option("--quick", "-q", is_flag=True, help="Minimal output (no table formatting)")
 @click.option("--copy", "-C", default=None, type=int, help="Copy command at specified displayed index (1-based)")
-def search(keywords: str, quick: bool, copy: int | None) -> None:
+@click.option("--json", "as_json", is_flag=True, help="Print matches as JSON (for scripts).")
+def search(keywords: str, quick: bool, copy: int | None, as_json: bool) -> None:
+    if as_json:
+        ui.reject_json_conflicts({"--quick": quick, "--copy": copy is not None})
     terms = parse_keywords(keywords)
     matches = filter_tools(load_tools(), keywords=terms) if terms else []
 
+    if as_json:
+        _print_json(matches)
+        return
     if not matches:
         ui.error("No matches found.")
         return
@@ -53,13 +64,27 @@ def search(keywords: str, quick: bool, copy: int | None) -> None:
 @click.argument("keywords", required=False)
 @click.option("--quick", "-q", is_flag=True, help="Minimal output")
 @click.option("--copy", "-C", default=None, type=int, help="Copy command at specified displayed index (1-based)")
-def searchfilter(tag: str | None, category: str | None, keywords: str | None, quick: bool, copy: int | None) -> None:
+@click.option("--json", "as_json", is_flag=True, help="Print matches as JSON (for scripts).")
+def searchfilter(
+    tag: str | None,
+    category: str | None,
+    keywords: str | None,
+    quick: bool,
+    copy: int | None,
+    as_json: bool,
+) -> None:
     """Filter tools by tag, category, and/or keyword(s) (comma-separated)."""
+    if as_json:
+        ui.reject_json_conflicts({"--quick": quick, "--copy": copy is not None})
     tag = tag.lower() if tag else None
     category = category.lower() if category else None
     terms = parse_keywords(keywords)
 
     matches = filter_tools(load_tools(), keywords=terms, tag=tag, category=category)
+
+    if as_json:
+        _print_json(matches)
+        return
 
     if not matches:
         ui.error("No matches found.")

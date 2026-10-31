@@ -53,6 +53,10 @@ Usage Examples:
         clihax import tools.json
         clihax export output.json
 
+    # JSON output for scripts (list, show, search, searchfilter)
+        clihax list --json
+        clihax search nmap --json | jq '.[].command'
+
     # Starter pack (common commands for nmap, ffuf, hydra, ...)
         clihax starter --list
         clihax starter
