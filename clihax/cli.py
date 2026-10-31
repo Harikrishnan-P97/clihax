@@ -7,7 +7,7 @@ themselves live in the ``clihax.commands`` package.
 import click
 
 from clihax import __version__
-from clihax.commands import data, info, search, tools
+from clihax.commands import data, info, search, starter, tools
 from clihax.utils.helpers import get_data_dir, migrate_legacy_data
 
 TOOL_NAME = "CliHax"
@@ -53,6 +53,10 @@ Usage Examples:
         clihax import tools.json
         clihax export output.json
 
+    # Starter pack (common commands for nmap, ffuf, hydra, ...)
+        clihax starter --list
+        clihax starter
+
     # Tool info
         clihax info
         clihax info --quick
@@ -95,6 +99,7 @@ for command in (
     search.search,
     search.searchfilter,
     info.info,
+    starter.starter,
     data.import_tools,
     data.export_tools,
     data.drop,

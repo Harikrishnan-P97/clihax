@@ -115,9 +115,12 @@ def quick_detail(index: int, tool: ToolDict) -> str:
 
 # ========= Tables ========= #
 
-def build_tools_table(tools: Sequence[ToolDict], *, full: bool = False) -> Table:
+def build_tools_table(
+    tools: Sequence[ToolDict], *, full: bool = False, title: str | None = None
+) -> Table:
     """Table used by ``list``; ``full`` adds description and timestamps."""
-    table = Table(title="CliHax Full Tool List" if full else "CliHax Tool List", show_lines=True)
+    default_title = "CliHax Full Tool List" if full else "CliHax Tool List"
+    table = Table(title=title or default_title, show_lines=True)
     table.add_column("Index", justify="center", style="bold cyan")
     table.add_column("Tool", style="magenta", overflow="fold")
     table.add_column("Command", style="green", overflow="fold")

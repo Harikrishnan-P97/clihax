@@ -37,6 +37,7 @@ Instead of Googling commands every time, create your own searchable, shareable c
 - 🌈 Styled output with [Rich](https://github.com/Textualize/rich)
 - 💾 JSON-based persistent storage
 - 🧠 Import/export entire tool DB
+- 🚀 Starter pack of 30+ ready-made commands (`clihax starter`)
 - ⚡ Quick mode (`--quick`) for silent terminal use
 - 🔐 Drop tool database with auto-backup and action logs
 
@@ -103,6 +104,7 @@ Usage: clihax [OPTIONS] COMMAND [ARGS]...
 | `search <term>`      | Search by keyword                            |
 | `searchfilter <tag>` | Filter tools by tag or category              |
 | `export <file>`      | Export your database to a JSON file          |
+| `starter`            | Add a ready-made pack of common commands     |
 | `import <file>`      | Import tools from a JSON file                |
 | `drop`               | Delete all tools (with confirmation & backup)|
 | `logs`               | View or clear drop history                   |
@@ -134,11 +136,13 @@ CliHax/
 │   ├── __init__.py          # Package version (read from pyproject.toml)
 │   ├── __main__.py          # `python -m clihax` entry point
 │   ├── cli.py               # Top-level command group
+│   ├── starter.py           # Built-in starter pack data
 │   ├── ui.py                # Tables, banner, highlighting, clipboard
 │   ├── commands/            # One module per group of commands
 │   │   ├── tools.py         # list, add, edit, delete, show
 │   │   ├── search.py        # search, searchfilter
 │   │   ├── data.py          # import, export, drop, logs
+│   │   ├── starter.py       # starter
 │   │   └── info.py          # info
 │   └── utils/
 │       ├── helpers.py       # Storage: data dir, JSON I/O, backups, migration
