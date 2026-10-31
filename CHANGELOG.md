@@ -26,6 +26,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - README project tree, install instructions and docs pointed at old file locations
 
 ### Added
+- Typo-tolerant search: when `search` or `searchfilter` finds no exact match, close matches are shown instead (`nmpa` finds `nmap`) with a notice on stderr. Exact results are unchanged and never mixed with close ones
 - `clihax --no-color` (and support for the `NO_COLOR` environment variable) to switch colours off. Put the flag before the command, for example `clihax --no-color list`
 - `--json` for `list`, `show`, `search` and `searchfilter`: prints only JSON on stdout (each tool with its displayed `index`), `[]` when nothing matches, and exits with status 1 on an invalid `show` index. It cannot be combined with `--quick`, `--pager` or `--copy`
 - `clihax starter`: adds a built-in pack of 33 common commands (nmap, ffuf, gobuster, hydra, sqlmap, msfvenom, ...). `--list` previews it, `--yes` skips the prompt; your own tools are never changed and duplicates are skipped

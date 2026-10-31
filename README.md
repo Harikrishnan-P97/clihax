@@ -31,7 +31,7 @@ Instead of Googling commands every time, create your own searchable, shareable c
 ## ✨ Features
 
 - ✅ Add, edit, delete tools with syntax and descriptions
-- 🔍 Search tools by keyword or filter by tags/category
+- 🔍 Search tools by keyword or filter by tags/category; typos are forgiven (`nmpa` finds `nmap`)
 - 🏷️ Tag tools by hacking phase (e.g., recon, exploit)
 - 📋 Copy command syntax directly to your clipboard
 - 🌈 Styled output with [Rich](https://github.com/Textualize/rich); plain when piped, and `--no-color` / `NO_COLOR` turn colours off
