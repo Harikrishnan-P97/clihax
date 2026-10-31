@@ -11,18 +11,24 @@ Copies the command to your clipboard (requires `pyperclip`).
 Tag your tools well (`ftp`, `post`, `priv‑esc`) so searches stay sharp.
 
 ---
-## Git Versioning
-Sync `data/tools.json` with Git:
+## Back Up and Share Your Tools
+Export a copy you can keep in Git, cloud storage or another machine:
 ```bash
-git add data/tools.json
-git commit -m "Update tools DB"
-git push
+clihax export my-tools.json
 ```
+Bring it back (or share it with a teammate) with:
+```bash
+clihax import my-tools.json
+```
+Imports are merged and duplicates are skipped.
 
 ---
 ## Restore from Backup
+`clihax drop` saves a backup first. Backups live in your data directory
+(`clihax info` shows where; on Linux it is `~/.local/share/clihax/`):
 ```bash
-cp backups/tools_backup_<timestamp>.json data/tools.json
+ls ~/.local/share/clihax/backups/
+clihax import ~/.local/share/clihax/backups/tools_backup_<timestamp>.json
 ```
 
 ---

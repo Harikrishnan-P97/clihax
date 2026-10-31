@@ -35,7 +35,6 @@ Instead of Googling commands every time, create your own searchable, shareable c
 - 🏷️ Tag tools by hacking phase (e.g., recon, exploit)
 - 📋 Copy command syntax directly to your clipboard
 - 🌈 Styled output with [Rich](https://github.com/Textualize/rich)
-- 🔁 Git-sync friendly (for team sharing or backups)
 - 💾 JSON-based persistent storage
 - 🧠 Import/export entire tool DB
 - ⚡ Quick mode (`--quick`) for silent terminal use
@@ -54,10 +53,10 @@ Instead of Googling commands every time, create your own searchable, shareable c
 poetry install
 ```
 
-Or if you prefer pip:
+You can also run CliHax as a Python module:
 
 ```bash
-pip install -r requirements.txt  # Optional if you export a requirements file
+poetry run python -m clihax --help
 ```
 
 ---
@@ -128,35 +127,36 @@ Usage: clihax [OPTIONS] COMMAND [ARGS]...
 
 ```
 CliHax/
-├── assets/                  # Logo/banner images for README
+├── assets/                  # Banner image for the README
 │   └── clihax-bannerimage.png
 │
-├── backups/                 # Auto-backups before database drops
-│
 ├── clihax/                  # Main source code
-│   ├── cli.py               # CLI entry point (Click-based)
-│   ├── tools/               # Git sync and tool handlers
-│   └── utils/               # JSON helpers and utilities
+│   ├── __init__.py          # Package version (read from pyproject.toml)
+│   ├── __main__.py          # `python -m clihax` entry point
+│   ├── cli.py               # Top-level command group
+│   ├── ui.py                # Tables, banner, highlighting, clipboard
+│   ├── commands/            # One module per group of commands
+│   │   ├── tools.py         # list, add, edit, delete, show
+│   │   ├── search.py        # search, searchfilter
+│   │   ├── data.py          # import, export, drop, logs
+│   │   └── info.py          # info
+│   └── utils/
+│       ├── helpers.py       # Storage: data dir, JSON I/O, backups, migration
+│       └── search.py        # Pure search/filter logic
 │
-├── data/                    # JSON database and metadata
-│   └── tools.json
+├── data/                    # Legacy v1.0 data folder (migrated automatically)
+├── docs/                    # Guides and CLI reference
+├── tests/                   # pytest suite
 │
-├── docs/                    # Markdown documentation
-│   └── troubleshooting.md
-│
-├── logs/                    # Drop action logs
-│   └── drops.json
-│
-├── .github/workflows/       # GitHub Actions CI/CD
-│   └── main.yml
+├── .github/workflows/       # GitHub Actions CI
+│   └── python.yml
 │
 ├── .gitignore
 ├── LICENSE                  # MIT License
 ├── README.md
 ├── CHANGELOG.md             # Version history
-├── pyproject.toml           # Poetry project configuration
+├── pyproject.toml           # Project configuration (Poetry)
 └── poetry.lock              # Locked dependencies
-
 ```
 
 ---

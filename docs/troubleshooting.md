@@ -106,8 +106,9 @@ poetry run clihax --help
 ### 💥 JSON Error or Crashes
 
 **Fix:**
-- Validate or fix `tools.json`.
-- Or restore from `data/backup_<timestamp>.json`.
+- CliHax reports the file it could not read; by default it is `~/.local/share/clihax/tools.json`.
+- Validate or fix that file.
+- Or restore a backup: `clihax import ~/.local/share/clihax/backups/tools_backup_<timestamp>.json` (after removing the broken `tools.json`).
 - Or delete `tools.json` to reset.
 
 ---

@@ -18,11 +18,25 @@ import shutil
 import tempfile
 from datetime import datetime
 from pathlib import Path
+from typing import Any
 
+import click
 from platformdirs import user_data_dir
 
 APP_NAME = "clihax"
 ENV_HOME = "CLIHAX_HOME"
+
+# A tool entry as stored in tools.json.
+ToolDict = dict[str, Any]
+
+
+class StorageError(click.ClickException):
+    """The tools database could not be read (shown as a one-line error, no traceback)."""
+
+
+def now_iso() -> str:
+    """Current local time as an ISO-8601 string with second precision."""
+    return datetime.now().isoformat(timespec="seconds")
 
 
 # ========= Paths ========= #
@@ -81,8 +95,17 @@ def load_tools():
     path = tools_file()
     if not path.exists():
         return []
-    with open(path) as f:
-        return json.load(f)
+    try:
+        with open(path) as f:
+            tools = json.load(f)
+        if not isinstance(tools, list):
+            raise ValueError("expected a JSON list of tools")
+    except (OSError, ValueError) as exc:
+        raise StorageError(
+            f"Could not read {path}: {exc}\n"
+            f"Fix or delete that file, or restore a backup from {backups_dir()}."
+        ) from exc
+    return tools
 
 
 def save_tools(tools):
@@ -90,19 +113,47 @@ def save_tools(tools):
     update_meta("last_edit")
 
 
+# ========= Drop log and backups ========= #
+
+def load_drop_log() -> list:
+    """Return the recorded drop events (empty list if there are none yet)."""
+    path = drops_log_file()
+    if not path.exists():
+        return []
+    with open(path) as f:
+        return json.load(f)
+
+
+def save_drop_log(entries: list) -> None:
+    _write_json_atomic(drops_log_file(), entries)
+
+
+def write_backup(tools: list) -> Path:
+    """Save a timestamped copy of the tools database and return its path."""
+    timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
+    path = backups_dir() / f"tools_backup_{timestamp}.json"
+    _write_json_atomic(path, tools)
+    return path
+
+
 # ========= Metadata ========= #
 
 def load_meta():
+    """Return the metadata (timestamps). Unreadable metadata is treated as empty."""
     path = meta_file()
-    if path.exists():
+    if not path.exists():
+        return {}
+    try:
         with open(path) as f:
-            return json.load(f)
-    return {}
+            meta = json.load(f)
+    except (OSError, ValueError):
+        return {}
+    return meta if isinstance(meta, dict) else {}
 
 
 def update_meta(action):
     meta = load_meta()
-    timestamp = datetime.now().isoformat(timespec="seconds")
+    timestamp = now_iso()
     if action == "import":
         meta["last_import"] = timestamp
     elif action == "export":
@@ -153,6 +204,11 @@ def migrate_legacy_data(legacy_root=None):
 
 # ========= Validation ========= #
 
+def tool_key(tool: ToolDict) -> tuple:
+    """Identity of a tool entry: two entries with the same key are duplicates."""
+    return (tool.get("tool"), tool.get("command"))
+
+
 def normalize_tool(entry):
     """Return a well-formed tool dict, or None if the entry is unusable.
 
@@ -175,7 +231,7 @@ def normalize_tool(entry):
     else:
         tags = []
 
-    now = datetime.now().isoformat(timespec="seconds")
+    now = now_iso()
     created = entry.get("created_at") or now
     return {
         "tool": tool,

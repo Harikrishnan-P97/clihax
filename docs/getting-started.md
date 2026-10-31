@@ -44,9 +44,10 @@ poetry install
 
 ---
 ## 6 Uninstalling
-Simply remove the project folder and (optionally) delete backups/logs:
+Remove the project folder and, if you also want to delete your saved tools, backups and logs, the data directory:
 ```bash
 rm -rf clihax
+rm -rf ~/.local/share/clihax
 ```
 
 Happy hacking! ⚔️
