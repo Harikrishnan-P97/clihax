@@ -3,6 +3,7 @@
 import click
 
 from clihax import ui
+from clihax.commands.completion import complete_categories, complete_tags
 from clihax.utils.helpers import ToolDict, load_tools
 from clihax.utils.search import filter_tools, parse_keywords
 
@@ -73,8 +74,15 @@ def search(keywords: str, quick: bool, copy: int | None, as_json: bool) -> None:
 # ========= searchfilter ========= #
 
 @click.command(help="Advanced filter by tag (-t), category (-c), and/or keywords.")
-@click.option("--tag", "-t", help="Filter by tag (e.g., recon, smb, brute-force)")
-@click.option("--category", "-c", help="Filter by category (e.g., recon, attack, post)")
+@click.option(
+    "--tag", "-t", shell_complete=complete_tags, help="Filter by tag (e.g., recon, smb, brute-force)"
+)
+@click.option(
+    "--category",
+    "-c",
+    shell_complete=complete_categories,
+    help="Filter by category (e.g., recon, attack, post)",
+)
 @click.argument("keywords", required=False)
 @click.option("--quick", "-q", is_flag=True, help="Minimal output")
 @click.option("--copy", "-C", default=None, type=int, help="Copy command at specified displayed index (1-based)")

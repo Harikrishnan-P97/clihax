@@ -9,7 +9,7 @@ from .conftest import SAMPLE_TOOLS, make_tool, plain
 
 ALL_COMMANDS = [
     "add", "delete", "drop", "edit", "export", "import",
-    "info", "list", "logs", "search", "searchfilter", "show", "starter",
+    "info", "list", "logs", "search", "searchfilter", "show", "starter", "completion",
 ]
 
 

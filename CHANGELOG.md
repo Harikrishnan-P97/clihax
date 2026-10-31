@@ -26,6 +26,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - README project tree, install instructions and docs pointed at old file locations
 
 ### Added
+- Shell Tab-completion: `clihax completion bash|zsh|fish` prints the script (add `eval "$(clihax completion bash)"` to your shell startup file). Besides commands and options it completes your own tags (`-t`), categories (`-c`) and tool numbers for `show`, `edit` and `delete`
 - Typo-tolerant search: when `search` or `searchfilter` finds no exact match, close matches are shown instead (`nmpa` finds `nmap`) with a notice on stderr. Exact results are unchanged and never mixed with close ones
 - `clihax --no-color` (and support for the `NO_COLOR` environment variable) to switch colours off. Put the flag before the command, for example `clihax --no-color list`
 - `--json` for `list`, `show`, `search` and `searchfilter`: prints only JSON on stdout (each tool with its displayed `index`), `[]` when nothing matches, and exits with status 1 on an invalid `show` index. It cannot be combined with `--quick`, `--pager` or `--copy`
