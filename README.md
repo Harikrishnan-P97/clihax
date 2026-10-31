@@ -37,6 +37,7 @@ Instead of Googling commands every time, create your own searchable, shareable c
 - 🌈 Styled output with [Rich](https://github.com/Textualize/rich)
 - 💾 JSON-based persistent storage
 - 🧠 Import/export entire tool DB
+- 🤖 `--json` output for scripting (`list`, `show`, `search`, `searchfilter`)
 - 🚀 Starter pack of 30+ ready-made commands (`clihax starter`)
 - ⚡ Quick mode (`--quick`) for silent terminal use
 - 🔐 Drop tool database with auto-backup and action logs
