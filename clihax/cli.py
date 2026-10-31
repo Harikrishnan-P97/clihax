@@ -4,6 +4,8 @@ This module only defines the top-level command group; the commands
 themselves live in the ``clihax.commands`` package.
 """
 
+import os
+
 import click
 
 from clihax import __version__
@@ -14,6 +16,10 @@ TOOL_NAME = "CliHax"
 
 EPILOG = """
 Common Flags:
+
+    --no-color
+        → Plain output without colours (put it before the command;
+          the NO_COLOR environment variable works too)
 
     -q, --quick
         → Minimal/plain output
@@ -80,9 +86,16 @@ Usage Examples:
     prog_name=TOOL_NAME,
     message="%(prog)s v%(version)s",
 )
+@click.option(
+    "--no-color",
+    is_flag=True,
+    help="Disable coloured output (the NO_COLOR environment variable does the same).",
+)
 @click.pass_context
-def cli(ctx: click.Context) -> None:
+def cli(ctx: click.Context, no_color: bool) -> None:
     """CliHax - Manage and search hacking tool syntax with ease."""
+    if no_color or os.environ.get("NO_COLOR"):
+        ctx.color = False  # inherited by every command
     migrated = migrate_legacy_data()
     if migrated:
         click.secho(

@@ -44,8 +44,15 @@ def success(message: str) -> None:
 
 # ========= Console, banner, clipboard ========= #
 
-def make_console(*, force_terminal: bool | None = None) -> Console:
-    return Console(force_terminal=force_terminal)
+def make_console() -> Console:
+    """A rich console that colours only on a real terminal.
+
+    Piped or redirected output stays plain. ``--no-color`` (stored on the click
+    context by the main command) removes colour on a terminal too; rich itself
+    already honours the NO_COLOR environment variable.
+    """
+    ctx = click.get_current_context(silent=True)
+    return Console(no_color=True if ctx is not None and ctx.color is False else None)
 
 
 def show_banner(console: Console | None = None) -> None:

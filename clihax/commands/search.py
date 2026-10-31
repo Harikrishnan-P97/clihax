@@ -23,7 +23,7 @@ def _print_json(matches: list[ToolDict]) -> None:
 
 
 def _show_results(matches: list[ToolDict], title: str, terms: list[str], quick: bool) -> None:
-    console = ui.make_console(force_terminal=True)
+    console = ui.make_console()
     if quick:
         ui.print_quick_results(console, matches, terms)
     else:
