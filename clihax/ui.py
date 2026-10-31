@@ -11,6 +11,7 @@ import click
 import pyperclip
 from rich.console import Console
 from rich.panel import Panel
+from rich.style import Style
 from rich.table import Table
 from rich.text import Text
 
@@ -184,3 +185,51 @@ def print_results_table(
             highlight(cell(format_tags(tool)), terms),
         )
     console.print(table)
+
+
+# ========= Info page ========= #
+
+INFO_WIDTH = 76  # width of the info panels (shrinks on narrow terminals)
+
+InfoRows = Sequence[tuple[str, "str | Text"]]
+
+
+def link(label: str, url: str) -> Text:
+    """Underlined text that is clickable in terminals that support hyperlinks."""
+    return Text(label, style=Style(color="bright_blue", underline=True, link=url))
+
+
+def _info_panel(title: str, rows: InfoRows, width: int) -> Panel:
+    grid = Table.grid(padding=(0, 2))
+    grid.add_column(style="bold cyan", no_wrap=True)
+    grid.add_column(overflow="fold")
+    for label, value in rows:
+        grid.add_row(label, value if isinstance(value, Text) else cell(value))
+    return Panel(
+        grid,
+        title=Text(title, style="bold"),
+        title_align="left",
+        border_style="cyan",
+        width=width,
+        padding=(0, 1),
+    )
+
+
+def print_info(
+    console: Console,
+    *,
+    headline: Text,
+    description: str,
+    sections: Sequence[tuple[str, InfoRows]],
+    footer: Text,
+) -> None:
+    """Banner, headline and one titled panel per section (used by ``info``)."""
+    width = min(console.width, INFO_WIDTH)
+    console.print()
+    show_banner(console)
+    console.print(headline)
+    console.print(Text(description, style="dim"))
+    console.print()
+    for title, rows in sections:
+        console.print(_info_panel(title, rows, width))
+    console.print(footer)

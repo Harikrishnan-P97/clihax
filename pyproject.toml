@@ -2,14 +2,13 @@
 name = "clihax"
 version = "1.0.0"
 description = "CliHax - A command reference manager for hackers and pentesters."
-authors = [{ name = "Lord" }]
+authors = [{ name = "Harikrishnan-P97" }]
 readme = "README.md"
 requires-python = ">=3.10,<4.0"
 license = "MIT"
 keywords = ["cli", "hacking", "pentesting", "reference", "tools"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Environment :: Console",
     "Topic :: Security",
@@ -22,6 +21,12 @@ dependencies = [
     "pyperclip (>=1.9.0,<2.0.0)",
     "platformdirs (>=4.0,<4.14)"
 ]
+
+[project.urls]
+Homepage = "https://github.com/Harikrishnan-P97/clihax"
+Repository = "https://github.com/Harikrishnan-P97/clihax"
+Issues = "https://github.com/Harikrishnan-P97/clihax/issues"
+Changelog = "https://github.com/Harikrishnan-P97/clihax/blob/main/CHANGELOG.md"
 
 [project.scripts]
 clihax = "clihax.cli:cli"
