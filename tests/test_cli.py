@@ -4,7 +4,8 @@ import pyperclip
 import pytest
 from click.testing import CliRunner
 
-from clihax import cli as cli_module
+import clihax
+from clihax import ui
 from clihax.cli import cli
 from clihax.utils import helpers
 
@@ -61,7 +62,7 @@ def test_add_with_blank_tags_stores_empty_list(runner):
 def test_show_copy_copies_and_still_displays(runner, monkeypatch, flag):
     helpers.save_tools([NMAP])
     copied = []
-    monkeypatch.setattr(cli_module, "_copy_to_clipboard", lambda text: copied.append(text) or True)
+    monkeypatch.setattr(ui, "copy_to_clipboard", lambda text: copied.append(text) or True)
 
     result = runner.invoke(cli, ["show", "1", flag])
 
@@ -145,5 +146,5 @@ def test_drop_force_empties_database_and_logs_event(runner):
 def test_version_and_info_report_the_same_version(runner):
     version_out = runner.invoke(cli, ["--version"]).output
     info_out = runner.invoke(cli, ["info", "--quick"]).output
-    assert cli_module.VERSION in version_out
-    assert cli_module.VERSION in info_out
+    assert clihax.__version__ in version_out
+    assert clihax.__version__ in info_out

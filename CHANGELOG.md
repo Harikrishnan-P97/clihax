@@ -8,6 +8,24 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 ### Changed
+- Split the 750-line `cli.py` into small modules: `commands/` (tools, search, data, info), `ui.py` for presentation and `utils/search.py` for pure search logic. Behaviour is unchanged unless listed below
+- `searchfilter --quick` now uses the same colours as `search --quick`; both highlight matches case-insensitively
+- The same "Invalid index" wording is used by `show`, `edit` and `delete`
+- `drop` now uses standard prompts, offers the backup by default (press Enter to accept) and, if the backup fails, asks before deleting without one (previously it deleted anyway)
+- A corrupted `tools.json` now gives a one-line error pointing at the file instead of a traceback; an unreadable `meta.json` is ignored
+- Narrower error handling and a message when the clipboard is unavailable
+
+### Removed
+- The empty git-sync stub and the unused `gitpython` and `prompt-toolkit` dependencies; the README no longer advertises git sync (use `export`/`import` or keep your own copy in Git)
+
+### Fixed
+- Stored commands containing text like `[port]` were silently altered in `list` and `show`, and `[/x]` crashed them; commands are now shown exactly as stored
+- `searchfilter "ftp,"` (trailing comma) no longer matches every tool
+- README project tree, install instructions and docs pointed at old file locations
+
+### Added
+- `python -m clihax` entry point
+- Tests for every command, the search logic, markup safety and storage (110 in total)
 - Tools database, metadata, drop logs and backups now live in a per-user data directory (override with `CLIHAX_HOME`) instead of the current working directory, so `clihax` works from any folder
 - Database writes are atomic (temp file + rename)
 
