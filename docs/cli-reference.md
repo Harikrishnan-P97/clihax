@@ -9,6 +9,7 @@
 | `delete <index>` | | Delete a tool |
 | `search <term>` | | Keyword search |
 | `searchfilter <tag>` | | Filter by tag/category |
+| `starter` | `--list`, `--yes` | Add the built-in pack of common commands (skips ones you already have) |
 | `import <file>` | | Import tools from JSON |
 | `export <file>` | | Export tools to JSON |
 | `drop` | `-f, --force` | Delete **all** tools |
