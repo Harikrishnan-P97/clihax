@@ -17,6 +17,20 @@ def _copy_result(matches: list[ToolDict], position: int) -> None:
         click.secho(f"📋 Copied command from result [{position}] ({tool['tool']})", fg="green")
 
 
+def _find(
+    terms: list[str], *, tag: str | None = None, category: str | None = None
+) -> list[ToolDict]:
+    """Exact matches; if there are none, close matches (typos) with a notice."""
+    tools = load_tools()
+    matches = filter_tools(tools, keywords=terms, tag=tag, category=category)
+    if matches or not terms:
+        return matches
+    matches = filter_tools(tools, keywords=terms, tag=tag, category=category, fuzzy=True)
+    if matches:
+        ui.notice(f"No exact match for '{', '.join(terms)}'. Showing close matches.")
+    return matches
+
+
 def _print_json(matches: list[ToolDict]) -> None:
     """Matches as JSON; the index is the displayed position, as used by --copy."""
     ui.print_json([ui.tool_json(i, tool) for i, tool in enumerate(matches, start=1)])
@@ -41,7 +55,7 @@ def search(keywords: str, quick: bool, copy: int | None, as_json: bool) -> None:
     if as_json:
         ui.reject_json_conflicts({"--quick": quick, "--copy": copy is not None})
     terms = parse_keywords(keywords)
-    matches = filter_tools(load_tools(), keywords=terms) if terms else []
+    matches = _find(terms) if terms else []
 
     if as_json:
         _print_json(matches)
@@ -80,7 +94,7 @@ def searchfilter(
     category = category.lower() if category else None
     terms = parse_keywords(keywords)
 
-    matches = filter_tools(load_tools(), keywords=terms, tag=tag, category=category)
+    matches = _find(terms, tag=tag, category=category)
 
     if as_json:
         _print_json(matches)

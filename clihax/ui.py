@@ -38,6 +38,11 @@ def error(message: str) -> None:
     click.secho(f"\u274c {message}", fg="red")
 
 
+def notice(message: str) -> None:
+    """A hint for the user, written to stderr so piped output (and --json) stays clean."""
+    click.secho(f"\u2139\ufe0f  {message}", fg="yellow", err=True)
+
+
 def success(message: str) -> None:
     click.secho(f"\u2705 {message}", fg="green")
 
