@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 ### Changed
+- README rewritten as a full reference: overview, installation with pipx, a step-by-step getting-started guide, per-command syntax and examples, searching rules, JSON and exit-code documentation, data layout, architecture notes and troubleshooting
 - The author is now shown as `Harikrishnan-P97` (matching GitHub) in `info` and `pyproject.toml`, which also gains project URLs; the deprecated licence classifier was removed
 - Split the 750-line `cli.py` into small modules: `commands/` (tools, search, data, info), `ui.py` for presentation and `utils/search.py` for pure search logic. Behaviour is unchanged unless listed below
 - `searchfilter --quick` now uses the same colours as `search --quick`; both highlight matches case-insensitively
@@ -26,6 +27,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - README project tree, install instructions and docs pointed at old file locations
 
 ### Added
+- `CONTRIBUTING.md`, and `scripts/make_screenshots.py` which regenerates the README images from real output
+- Tests that every relative link and image in the README, CONTRIBUTING and docs points to an existing file
 - Shell Tab-completion: `clihax completion bash|zsh|fish` prints the script (add `eval "$(clihax completion bash)"` to your shell startup file). Besides commands and options it completes your own tags (`-t`), categories (`-c`) and tool numbers for `show`, `edit` and `delete`
 - Typo-tolerant search: when `search` or `searchfilter` finds no exact match, close matches are shown instead (`nmpa` finds `nmap`) with a notice on stderr. Exact results are unchanged and never mixed with close ones
 - `clihax --no-color` (and support for the `NO_COLOR` environment variable) to switch colours off. Put the flag before the command, for example `clihax --no-color list`
