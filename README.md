@@ -16,6 +16,10 @@
   <a href="https://github.com/Harikrishnan-P97/clihax/commits"><img src="https://img.shields.io/github/last-commit/Harikrishnan-P97/clihax" alt="Last commit"></a>
 </p>
 
+<p align="center">
+  <img src="assets/demo.gif" alt="Demo: loading the starter pack, then searching, a typo-tolerant search and JSON output" width="820"/>
+</p>
+
 ## Table of contents
 
 - [Overview](#overview)
@@ -530,8 +534,8 @@ clihax/
 │       └── stats.py      pure statistics and formatting helpers
 ├── tests/                pytest suite
 ├── docs/                 tips and tricks, data format, troubleshooting
-├── scripts/              make_screenshots.py regenerates the README images
-├── assets/               banner and screenshots
+├── scripts/              make_screenshots.py and demo.tape regenerate the README media
+├── assets/               banner, screenshots and demo GIF
 └── .github/workflows/    CI
 ```
 
@@ -556,7 +560,7 @@ poetry run ruff check .        # lint
 
 Tests use a temporary data folder through `CLIHAX_HOME`, so they never touch your real tools. The same variable is handy for experiments: `CLIHAX_HOME=/tmp/dev poetry run clihax starter --yes`.
 
-GitHub Actions runs the tests and the linter on Python 3.10, 3.11, 3.12, 3.13 and 3.14 for every push and pull request. To regenerate the README screenshots from real output, run `poetry run python scripts/make_screenshots.py`.
+GitHub Actions runs the tests and the linter on Python 3.10, 3.11, 3.12, 3.13 and 3.14 for every push and pull request. To regenerate the README screenshots from real output, run `poetry run python scripts/make_screenshots.py`. The demo GIF is recorded with [VHS](https://github.com/charmbracelet/vhs) from `scripts/demo.tape`: `poetry run vhs scripts/demo.tape`.
 
 The project follows [Semantic Versioning](https://semver.org/); changes are listed in the [changelog](CHANGELOG.md).
 
