@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ---
 
 ## [Unreleased]
+
+---
+
+## [v1.1.0] - 2026-11-01
 ### Changed
 - Remaining `docs/` pages rewritten and corrected (installation with pipx, restoring from a backup, data format, tips with tested jq recipes) and a `docs/README.md` index added
 - README rewritten as a full reference: overview, installation with pipx, a step-by-step getting-started guide, per-command syntax and examples, searching rules, JSON and exit-code documentation, data layout, architecture notes and troubleshooting
@@ -38,7 +42,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - `clihax starter`: adds a built-in pack of 33 common commands (nmap, ffuf, gobuster, hydra, sqlmap, msfvenom, ...). `--list` previews it, `--yes` skips the prompt; your own tools are never changed and duplicates are skipped
 - Redesigned `clihax info`: the banner is kept, followed by About (version, author, repository link, license, Python), Toolbox (tool, category and tag counts, data folder, database size, backups, drop log) and Activity (last edit/import/export with a relative time) panels; `info --quick` now also prints the author and repository
 - `python -m clihax` entry point
-- Tests for every command, the search logic, markup safety and storage (110 in total)
+- Tests for every command, the search logic, markup safety and storage (227 in total)
 - Tools database, metadata, drop logs and backups now live in a per-user data directory (override with `CLIHAX_HOME`) instead of the current working directory, so `clihax` works from any folder
 - Database writes are atomic (temp file + rename)
 
