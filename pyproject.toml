@@ -1,16 +1,24 @@
 [project]
 name = "clihax"
 version = "1.1.0"
-description = "CliHax - A command reference manager for hackers and pentesters."
+description = "Command-line reference manager for penetration testers: store, search and recall tool syntax."
 authors = [{ name = "Harikrishnan-P97" }]
 readme = "README.md"
 requires-python = ">=3.10,<4.0"
 license = "MIT"
-keywords = ["cli", "hacking", "pentesting", "reference", "tools"]
+keywords = ["cli", "pentesting", "penetration-testing", "security", "cheatsheet", "command-line", "reference"]
 classifiers = [
-    "Programming Language :: Python :: 3",
-    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
     "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Security",
     "Topic :: Utilities"
 ]
