@@ -1,128 +1,108 @@
+# Troubleshooting
 
-# 🔧 CliHax Troubleshooting Guide
+Solutions for the problems people most often meet when installing and using CliHax. If yours is not listed, please open an [issue](https://github.com/Harikrishnan-P97/clihax/issues).
 
-This guide helps you install CliHax and resolve common issues during setup or execution.
+## Installation
 
----
+### `clihax: command not found`
 
-## 🚀 Step-by-Step Installation
+After `pipx install`, the folder that pipx uses for commands may not be on your `PATH` yet:
 
-### 1. Update your system
 ```bash
-sudo apt update && sudo apt upgrade
+pipx ensurepath
 ```
 
----
+Then open a new terminal. If you installed from a source checkout, run the command through Poetry instead: `poetry run clihax`.
 
-### 2. Install required system packages
+### `pipx: command not found`
+
+On Debian and Ubuntu:
+
 ```bash
-sudo apt install build-essential python3-dev libssl-dev libffi-dev -y
+sudo apt install pipx
+pipx ensurepath
 ```
 
----
+On other systems follow the [pipx installation guide](https://pipx.pypa.io/stable/installation/).
 
-### 3. Clone the CliHax repository
+### The Python version is too old
+
+CliHax needs Python 3.10 or newer. Check with `python3 --version`. If your default Python is older, install a newer one and tell pipx to use it:
+
 ```bash
-git clone https://github.com/Harikrishnan-P97/clihax.git
-cd clihax
+pipx install --python python3.12 git+https://github.com/Harikrishnan-P97/clihax.git
 ```
 
----
+### Installing from source with Poetry
 
-### 4. Install Poetry using `sudo`
-```bash
-curl -sSL https://install.python-poetry.org | python3 -
-```
-
----
-
-### 5. Check if Poetry is installed
-```bash
-which poetry
-```
-
-If it shows no output, add Poetry to your PATH:
+**`poetry: command not found`.** Add Poetry's folder to your `PATH` and make it permanent by adding the line to `~/.bashrc` or `~/.zshrc`:
 
 ```bash
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
-Add it permanently by appending that line to your shell config file (`~/.bashrc`, `~/.zshrc`, etc.)
+**A dependency fails to build.** This is rare, because the dependencies ship pre-built wheels, but on a minimal system you may need compiler tools:
 
----
-
-### 6. Install CliHax with verbose logging
 ```bash
-poetry install -vvv
+sudo apt install build-essential python3-dev
 ```
 
----
+**The install hangs at a `keyring` step.** Disable Poetry's keyring integration and try again; add `-vvv` for detailed logs:
 
-### 🧯 If installation is stuck at `keyring` step:
-
-Run this command to disable keyring integration:
 ```bash
 poetry config keyring.enabled false
-```
-
-Then reinstall:
-```bash
 poetry install -vvv
 ```
 
----
+**`ModuleNotFoundError: No module named 'clihax'`.** Run the command from the project folder through Poetry (`poetry run clihax --help`), or reinstall with `poetry install`.
 
-### 7. Run CliHax
+## Using CliHax
+
+### "Clipboard unavailable"
+
+`--copy` needs a clipboard tool on Linux. Install `xclip` (X11) or `wl-clipboard` (Wayland):
+
 ```bash
-poetry run clihax --help
+sudo apt install xclip
 ```
 
----
+### "Could not read ... tools.json"
 
-## ❓ Common Runtime Issues
+CliHax names the file it could not read. The file is probably not valid JSON, for example after a manual edit. You can fix it in an editor, delete it to start fresh, or restore a backup.
 
-### ⚠️ `ModuleNotFoundError` (e.g., `No module named 'clihax'`)
+### Restoring from a backup
 
-**Fix:**
-- Ensure folder structure:
-  ```
-  clihax/
-  ├── __init__.py
-  └── cli.py
-  ```
-- Ensure `pyproject.toml` has:
-  ```toml
-  [project.scripts]
-  clihax = "clihax.cli:cli"
-  ```
+`clihax drop` saves a backup first (see `clihax info` for the data folder). To restore one, move the broken database out of the way and import the backup:
 
-- Reinstall:
-  ```bash
-  poetry install
-  ```
-
----
-
-### 💥 JSON Error or Crashes
-
-**Fix:**
-- CliHax reports the file it could not read; by default it is `~/.local/share/clihax/tools.json`.
-- Validate or fix that file.
-- Or restore a backup: `clihax import ~/.local/share/clihax/backups/tools_backup_<timestamp>.json` (after removing the broken `tools.json`).
-- Or delete `tools.json` to reset.
-
----
-
-### 🧪 Virtual Environment Issues
-
-Use:
 ```bash
-poetry shell
+cd ~/.local/share/clihax
+ls backups/
+mv tools.json tools.json.broken
+clihax import backups/tools_backup_<timestamp>.json
 ```
-Or run directly:
-```bash
-poetry run clihax
-```
----
 
-_Updated: 2025-07-01_
+### My tools are missing, or I see a different toolbox
+
+CliHax keeps one toolbox per data folder. Run `clihax info` and check the **Data folder** line. A different folder is used when the `CLIHAX_HOME` environment variable is set, so check `echo $CLIHAX_HOME`. Data from version 1.0 (a `data/` folder next to where you ran it) is copied over automatically once, the first time you run `clihax` in that folder.
+
+### A search finds nothing
+
+- Several keywords are separated by commas: `clihax search "ftp,ssh"`. A phrase with a space is matched as a whole.
+- `search` looks in the tool name, command and description, and matches tags exactly. Use `clihax list` to see what is stored.
+- If nothing matches exactly, CliHax shows close matches for misspelled words and says so. Words shorter than three characters are never matched that way.
+
+### `--json cannot be combined with --quick`
+
+`--json` prints machine-readable output only, so it cannot be mixed with `--quick`, `--pager` or `--copy`. Use one or the other.
+
+### Colour codes appear in a file or pipe
+
+Colours are only used on a real terminal, so piped and redirected output is plain. If you still see escape codes, set `NO_COLOR=1` or use `clihax --no-color ...` (the option goes before the command).
+
+### Tab completion does nothing
+
+Check that the `eval "$(clihax completion bash)"` line (or the zsh/fish equivalent from the [README](../README.md#shell-completion)) is in your shell's startup file, then open a new terminal. Completion only works when `clihax` is on your `PATH`; with a source checkout, start a shell inside the project environment with `poetry run bash` first.
+
+## Starting over
+
+To remove all stored tools, use `clihax drop`. To remove everything CliHax has stored, including backups and logs, delete its data folder (for example `rm -rf ~/.local/share/clihax` on Linux) after uninstalling with `pipx uninstall clihax`.

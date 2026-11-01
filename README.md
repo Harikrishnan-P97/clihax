@@ -529,7 +529,7 @@ clihax/
 │       ├── search.py     pure search and filter logic
 │       └── stats.py      pure statistics and formatting helpers
 ├── tests/                pytest suite
-├── docs/                 troubleshooting and data format notes
+├── docs/                 tips and tricks, data format, troubleshooting
 ├── scripts/              make_screenshots.py regenerates the README images
 ├── assets/               banner and screenshots
 └── .github/workflows/    CI

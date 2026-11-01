@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 ### Changed
+- Remaining `docs/` pages rewritten and corrected (installation with pipx, restoring from a backup, data format, tips with tested jq recipes) and a `docs/README.md` index added
 - README rewritten as a full reference: overview, installation with pipx, a step-by-step getting-started guide, per-command syntax and examples, searching rules, JSON and exit-code documentation, data layout, architecture notes and troubleshooting
 - The author is now shown as `Harikrishnan-P97` (matching GitHub) in `info` and `pyproject.toml`, which also gains project URLs; the deprecated licence classifier was removed
 - Split the 750-line `cli.py` into small modules: `commands/` (tools, search, data, info), `ui.py` for presentation and `utils/search.py` for pure search logic. Behaviour is unchanged unless listed below
@@ -18,6 +19,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Narrower error handling and a message when the clipboard is unavailable
 
 ### Removed
+- The empty `data/` folder from the repository (existing users' data is still migrated automatically) and the `docs/` pages that duplicated the README (`getting-started`, `usage-guide`, `cli-reference`; the README is now the complete reference)
 - The empty git-sync stub and the unused `gitpython` and `prompt-toolkit` dependencies; the README no longer advertises git sync (use `export`/`import` or keep your own copy in Git)
 
 ### Fixed
