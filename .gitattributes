@@ -1,0 +1,6 @@
+# Normalise line endings and mark binary or generated files
+* text=auto
+*.png binary
+*.gif binary
+poetry.lock linguist-generated
+assets/*.svg linguist-generated

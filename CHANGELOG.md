@@ -1,4 +1,4 @@
-# 📓 Changelog
+# Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -82,3 +82,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Initial release tag and GitHub release
 
 ---
+
+[Unreleased]: https://github.com/Harikrishnan-P97/clihax/compare/v1.1.0...HEAD
+[v1.1.0]: https://github.com/Harikrishnan-P97/clihax/compare/v1.0.0...v1.1.0
+[v1.0.0]: https://github.com/Harikrishnan-P97/clihax/releases/tag/v1.0.0

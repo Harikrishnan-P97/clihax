@@ -1,11 +1,30 @@
+# Python
 __pycache__/
-*.pyc
-.venv/
+*.py[cod]
+*.egg-info/
+build/
 dist/
+
+# Virtual environments
+.venv/
+venv/
+
+# Test, lint and coverage caches
 .pytest_cache/
 .ruff_cache/
+.coverage
+htmlcov/
 
-# user runtime data
-backups/
-logs/
-data/meta.json
+# Editors and operating systems
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Local settings and secrets
+.env
+
+# CliHax data from the old v1.0 layout (now stored in the per-user data folder)
+/data/
+/logs/
+/backups/
