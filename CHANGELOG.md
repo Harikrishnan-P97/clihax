@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 ### Added
+- A screenshot gallery (`docs/screenshots.md`) with captioned screenshots of the commands, the test run and the release
 - A demo GIF at the top of the README, recorded from `scripts/demo.tape` with VHS so it can be reproduced
 
 ---
