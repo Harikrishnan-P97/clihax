@@ -85,6 +85,8 @@ CliHax stores and recalls command text only. It does not run commands, scan targ
   <img src="assets/info.svg" alt="clihax info output" width="620"/>
 </p>
 
+More screenshots, with captions, are in the [screenshot gallery](docs/screenshots.md).
+
 ## Installation
 
 Requirements: **Python 3.10 or newer**. On Linux, copying to the clipboard needs `xclip` or `wl-clipboard` (`sudo apt install xclip`).
